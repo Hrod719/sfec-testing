@@ -6,9 +6,9 @@ import { enrichStudent, getStudentFullName } from '@/lib/utils'
 import AccomBadge from '@/components/AccomBadge'
 
 const TEACHER_COLORS: Record<string, { bg: string; border: string; text: string }> = {
-  'ALAMIE-OMU EBENEZER':  { bg: '#0C1F35', border: '#1A5276', text: '#A8C7E8' },
-  'LIMA ARIEL':           { bg: '#0C2118', border: '#1E8449', text: '#A9DFBF' },
-  'PENA CARBALLO ILEANA': { bg: '#1A0F27', border: '#6C3483', text: '#D2B4DE' },
+  'ALAMIE-OMU EBENEZER':  { bg: '#EFF6FF', border: '#BFDBFE', text: '#1E40AF' },
+  'LIMA ARIEL':           { bg: '#F0FDF4', border: '#BBF7D0', text: '#166534' },
+  'PENA CARBALLO ILEANA': { bg: '#F5F3FF', border: '#DDD6FE', text: '#5B21B6' },
 }
 
 export default function TeachersPage() {
@@ -50,16 +50,16 @@ export default function TeachersPage() {
     <div>
       <div className="flex items-center justify-between mb-4 no-print">
         <div>
-          <h2 className="text-xl font-semibold text-white mb-1">Teacher Communication Sheets</h2>
-          <p className="text-sm text-slate-400">Print and hand to each teacher. One section per teacher.</p>
+          <h2 className="text-xl font-semibold text-txt-primary mb-1">Teacher Communication Sheets</h2>
+          <p className="text-sm text-txt-secondary">Print and hand to each teacher. One section per teacher.</p>
         </div>
         <div className="flex gap-3">
           <select value={cycleId} onChange={e => setCycleId(e.target.value)}
-            className="rounded bg-slate-800 border border-slate-600 text-white text-sm px-3 py-2">
+            className="rounded bg-surface-page border border-surface-border text-txt-primary text-sm px-3 py-2">
             {cycles.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
           <button onClick={() => window.print()}
-            className="px-4 py-2 rounded-lg bg-blue-700 hover:bg-blue-600 text-white text-sm font-medium transition-colors">
+            className="px-4 py-2 rounded-lg bg-brand-navy hover:bg-brand-navy-light text-white text-sm font-medium transition-colors">
             🖨 Print All
           </button>
         </div>
@@ -70,7 +70,7 @@ export default function TeachersPage() {
         <button
           onClick={() => setActiveTeacher(null)}
           className={`px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
-            !activeTeacher ? 'bg-blue-700 text-white border-blue-700' : 'text-slate-400 border-slate-700 hover:text-white'
+            !activeTeacher ? 'bg-brand-navy text-white border-brand-navy' : 'text-txt-secondary border-surface-border hover:text-txt-primary'
           }`}>
           All Teachers
         </button>
@@ -78,7 +78,7 @@ export default function TeachersPage() {
           <button key={t}
             onClick={() => setActiveTeacher(activeTeacher === t ? null : t)}
             className={`px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
-              activeTeacher === t ? 'bg-blue-700 text-white border-blue-700' : 'text-slate-400 border-slate-700 hover:text-white'
+              activeTeacher === t ? 'bg-brand-navy text-white border-brand-navy' : 'text-txt-secondary border-surface-border hover:text-txt-primary'
             }`}>
             {t.split(' ')[0]}
           </button>
@@ -88,7 +88,7 @@ export default function TeachersPage() {
       {/* Teacher sheets */}
       <div className="space-y-8">
         {visibleTeachers.map(({ teacher, students: ts, periods, room }) => {
-          const colors = TEACHER_COLORS[teacher] ?? { bg: '#0F1923', border: '#2A3F5A', text: '#A8C7E8' }
+          const colors = TEACHER_COLORS[teacher] ?? { bg: '#F8F9FB', border: '#E5E8ED', text: '#1B2D4A' }
           const esolCount = ts.filter(s => s.esol_level).length
           const eseCount = ts.filter(s => s.ese_exceptionality).length
           const stdCount = ts.filter(s => !s.esol_level && !s.ese_exceptionality).length
@@ -100,16 +100,16 @@ export default function TeachersPage() {
               <div className="px-5 py-4" style={{ background: colors.bg, borderBottom: `1px solid ${colors.border}` }}>
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="text-xs uppercase tracking-wider mb-1" style={{ color: colors.text, opacity: 0.7 }}>Teacher</p>
-                    <h3 className="text-lg font-bold text-white">{teacher}</h3>
+                    <p className="text-xs uppercase tracking-wider mb-1 opacity-60" style={{ color: colors.text }}>Teacher</p>
+                    <h3 className="text-lg font-bold" style={{ color: colors.text }}>{teacher}</h3>
                     <p className="text-sm mt-1" style={{ color: colors.text }}>
                       Class Room: {room} &nbsp;·&nbsp; Periods: {periods.map(p => `Pd ${p}`).join(', ')}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-xs" style={{ color: colors.text, opacity: 0.7 }}>Testing: May 15, Friday</p>
-                    <p className="text-2xl font-bold font-mono text-white mt-1">{ts.length}</p>
-                    <p className="text-xs" style={{ color: colors.text, opacity: 0.7 }}>students</p>
+                    <p className="text-xs opacity-60" style={{ color: colors.text }}>Testing: May 15, Friday</p>
+                    <p className="text-2xl font-bold font-mono mt-1" style={{ color: colors.text }}>{ts.length}</p>
+                    <p className="text-xs opacity-60" style={{ color: colors.text }}>students</p>
                   </div>
                 </div>
                 <div className="flex gap-4 mt-3 text-xs" style={{ color: colors.text }}>
@@ -120,7 +120,7 @@ export default function TeachersPage() {
               </div>
 
               {/* Student table */}
-              <div style={{ background: '#0D1821' }}>
+              <div>
                 <table className="roster-table">
                   <thead>
                     <tr>
@@ -137,18 +137,18 @@ export default function TeachersPage() {
                   <tbody>
                     {ts.map(s => (
                       <tr key={s.id} className={s.esolStatus === 'no-exit-date' ? 'alert-row' : ''}>
-                        <td className="text-center font-mono text-slate-400">{s.period}</td>
+                        <td className="text-center font-mono text-txt-secondary">{s.period}</td>
                         <td>
-                          <span className="font-semibold text-white">{getStudentFullName(s)}</span>
+                          <span className="font-semibold text-txt-primary">{getStudentFullName(s)}</span>
                           {s.esolStatus === 'no-exit-date' && (
-                            <span className="ml-2 text-red-400 text-xs font-bold">⚠ no exit date</span>
+                            <span className="ml-2 text-semantic-error text-xs font-bold">⚠ no exit date</span>
                           )}
                         </td>
-                        <td className="font-mono text-xs text-slate-400">{s.student_id}</td>
+                        <td className="font-mono text-xs text-txt-secondary">{s.student_id}</td>
                         <td className="text-center">{s.grade}</td>
                         <td className="text-sm font-medium" style={{ color: colors.text }}>{s.testing_room}</td>
-                        <td className="text-center font-mono text-blue-400">{s.esol_level ?? '—'}</td>
-                        <td className="text-center font-mono text-purple-400">{s.ese_exceptionality ?? '—'}</td>
+                        <td className="text-center font-mono text-semantic-info">{s.esol_level ?? '—'}</td>
+                        <td className="text-center font-mono text-semantic-purple">{s.ese_exceptionality ?? '—'}</td>
                         <td><AccomBadge group={s.accommodationGroup} /></td>
                       </tr>
                     ))}
