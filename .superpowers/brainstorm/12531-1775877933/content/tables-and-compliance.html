@@ -1,0 +1,309 @@
+<h2>Data Tables & Compliance Page</h2>
+<p class="subtitle">Table design used across Roster, ESOL Tracker, and ESE pages. Plus the compliance dashboard with charts.</p>
+
+<!-- ===== ROSTER TABLE ===== -->
+<div class="section">
+  <h3>Master Roster — /roster</h3>
+  <div class="mockup">
+    <div class="mockup-header">Roster Table with Filters</div>
+    <div class="mockup-body" style="padding: 0; background: #F7F8FA;">
+
+      <!-- Same branded nav bar (collapsed for space) -->
+      <div style="background: linear-gradient(135deg, #1B2D4A, #243B5C); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #C5A647;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 28px; height: 28px; background: #C5A647; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; color: #1B2D4A;">R</div>
+          <div style="color: #fff; font-size: 12px; font-weight: 700;">Reagan Doral SHS</div>
+        </div>
+        <div style="display: flex; gap: 2px;">
+          <div style="color: #8BA4C4; font-size: 9px; padding: 4px 10px; border-radius: 20px;">Dashboard</div>
+          <div style="background: rgba(197,166,71,0.15); color: #C5A647; font-size: 9px; padding: 4px 10px; border-radius: 20px; font-weight: 600;">Roster</div>
+          <div style="color: #8BA4C4; font-size: 9px; padding: 4px 10px; border-radius: 20px;">Rooms</div>
+          <div style="color: #8BA4C4; font-size: 9px; padding: 4px 10px; border-radius: 20px;">ESOL</div>
+        </div>
+      </div>
+
+      <div style="padding: 16px 20px;">
+        <!-- Page Title -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+          <div>
+            <div style="font-size: 20px; font-weight: 800; color: #1B2D4A; letter-spacing: -0.02em;">Master Roster</div>
+            <div style="font-size: 11px; color: #6B7A8D; margin-top: 2px;">194 students &middot; Biology EOC — May 2026</div>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div style="background: #fff; border: 1px solid #E5E8ED; border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+          <!-- Search -->
+          <div style="flex: 1; min-width: 180px; background: #F7F8FA; border: 1px solid #E5E8ED; border-radius: 6px; padding: 6px 10px; display: flex; align-items: center; gap: 6px;">
+            <div style="font-size: 12px; color: #6B7A8D;">&#x1F50D;</div>
+            <div style="font-size: 11px; color: #9CA3AF;">Search by name, ID, or teacher...</div>
+          </div>
+          <!-- Filter pills -->
+          <div style="display: flex; gap: 4px;">
+            <div style="background: #F7F8FA; border: 1px solid #E5E8ED; border-radius: 6px; padding: 5px 10px; font-size: 10px; color: #6B7A8D; display: flex; align-items: center; gap: 4px;">Room <span style="font-size: 8px;">&#x25BC;</span></div>
+            <div style="background: #F7F8FA; border: 1px solid #E5E8ED; border-radius: 6px; padding: 5px 10px; font-size: 10px; color: #6B7A8D; display: flex; align-items: center; gap: 4px;">Teacher <span style="font-size: 8px;">&#x25BC;</span></div>
+            <div style="background: #F7F8FA; border: 1px solid #E5E8ED; border-radius: 6px; padding: 5px 10px; font-size: 10px; color: #6B7A8D; display: flex; align-items: center; gap: 4px;">Accommodation <span style="font-size: 8px;">&#x25BC;</span></div>
+            <div style="background: #F7F8FA; border: 1px solid #E5E8ED; border-radius: 6px; padding: 5px 10px; font-size: 10px; color: #6B7A8D; display: flex; align-items: center; gap: 4px;">Grade <span style="font-size: 8px;">&#x25BC;</span></div>
+          </div>
+        </div>
+
+        <!-- Table -->
+        <div style="background: #fff; border: 1px solid #E5E8ED; border-radius: 10px; overflow: hidden;">
+          <!-- Table Header -->
+          <div style="display: grid; grid-template-columns: 60px 1.5fr 1fr 40px 1fr 80px 100px 60px; padding: 8px 14px; background: #F8F9FB; border-bottom: 2px solid #E5E8ED;">
+            <div style="font-size: 9px; font-weight: 700; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em;">ID &#x25B2;</div>
+            <div style="font-size: 9px; font-weight: 700; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em;">Student Name</div>
+            <div style="font-size: 9px; font-weight: 700; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em;">Teacher</div>
+            <div style="font-size: 9px; font-weight: 700; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em; text-align: center;">Gr</div>
+            <div style="font-size: 9px; font-weight: 700; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em;">Accommodation</div>
+            <div style="font-size: 9px; font-weight: 700; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em;">Room</div>
+            <div style="font-size: 9px; font-weight: 700; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em;">ESOL Status</div>
+            <div style="font-size: 9px; font-weight: 700; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em; text-align: center;">Period</div>
+          </div>
+          <!-- Row 1 — Normal -->
+          <div style="display: grid; grid-template-columns: 60px 1.5fr 1fr 40px 1fr 80px 100px 60px; padding: 10px 14px; border-bottom: 1px solid #F0F2F5; align-items: center;">
+            <div style="font-size: 11px; color: #6B7A8D; font-family: monospace;">4821</div>
+            <div style="font-size: 12px; font-weight: 600; color: #1B2D4A;">Alvarez, Maria C.</div>
+            <div style="font-size: 11px; color: #6B7A8D;">Rodriguez</div>
+            <div style="font-size: 11px; color: #6B7A8D; text-align: center;">10</div>
+            <div><span style="display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; background: #DBEAFE; color: #1E40AF;">ESOL Level 2</span></div>
+            <div style="font-size: 11px; color: #6B7A8D; font-family: monospace;">101</div>
+            <div><span style="display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; background: #D1FAE5; color: #065F46;">&#x25CF; Active</span></div>
+            <div style="font-size: 11px; color: #6B7A8D; text-align: center; font-family: monospace;">3</div>
+          </div>
+          <!-- Row 2 — Hover state -->
+          <div style="display: grid; grid-template-columns: 60px 1.5fr 1fr 40px 1fr 80px 100px 60px; padding: 10px 14px; background: #F0F7FF; border-bottom: 1px solid #F0F2F5; align-items: center;">
+            <div style="font-size: 11px; color: #6B7A8D; font-family: monospace;">5134</div>
+            <div style="font-size: 12px; font-weight: 600; color: #1B2D4A;">Baptiste, Jean-Pierre</div>
+            <div style="font-size: 11px; color: #6B7A8D;">Thompson</div>
+            <div style="font-size: 11px; color: #6B7A8D; text-align: center;">11</div>
+            <div><span style="display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; background: #D1FAE5; color: #065F46;">Standard</span></div>
+            <div style="font-size: 11px; color: #6B7A8D; font-family: monospace;">102</div>
+            <div><span style="font-size: 10px; color: #9CA3AF;">&mdash;</span></div>
+            <div style="font-size: 11px; color: #6B7A8D; text-align: center; font-family: monospace;">1</div>
+          </div>
+          <!-- Row 3 — Alert row (missing exit date) -->
+          <div style="display: grid; grid-template-columns: 60px 1.5fr 1fr 40px 1fr 80px 100px 60px; padding: 10px 14px; background: #FEF2F2; border-bottom: 1px solid #FECACA; border-left: 3px solid #DC2626; align-items: center;">
+            <div style="font-size: 11px; color: #6B7A8D; font-family: monospace;">3907</div>
+            <div style="font-size: 12px; font-weight: 600; color: #991B1B;">Castellanos, Luis A.</div>
+            <div style="font-size: 11px; color: #6B7A8D;">Chen</div>
+            <div style="font-size: 11px; color: #6B7A8D; text-align: center;">10</div>
+            <div><span style="display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; background: #FEF3C7; color: #92400E;">ESOL + ESE</span></div>
+            <div style="font-size: 11px; color: #6B7A8D; font-family: monospace;">177</div>
+            <div><span style="display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; background: #FEE2E2; color: #B91C1C;">&#x25CF; No Exit</span></div>
+            <div style="font-size: 11px; color: #6B7A8D; text-align: center; font-family: monospace;">5</div>
+          </div>
+          <!-- Row 4 — Striped -->
+          <div style="display: grid; grid-template-columns: 60px 1.5fr 1fr 40px 1fr 80px 100px 60px; padding: 10px 14px; background: #FAFBFC; border-bottom: 1px solid #F0F2F5; align-items: center;">
+            <div style="font-size: 11px; color: #6B7A8D; font-family: monospace;">6201</div>
+            <div style="font-size: 12px; font-weight: 600; color: #1B2D4A;">Diaz, Sofia M.</div>
+            <div style="font-size: 11px; color: #6B7A8D;">Rodriguez</div>
+            <div style="font-size: 11px; color: #6B7A8D; text-align: center;">9</div>
+            <div><span style="display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; background: #EDE9FE; color: #6D28D9;">ESE &mdash; K</span></div>
+            <div style="font-size: 11px; color: #6B7A8D; font-family: monospace;">MC-L</div>
+            <div><span style="font-size: 10px; color: #9CA3AF;">&mdash;</span></div>
+            <div style="font-size: 11px; color: #6B7A8D; text-align: center; font-family: monospace;">2</div>
+          </div>
+          <!-- Row 5 -->
+          <div style="display: grid; grid-template-columns: 60px 1.5fr 1fr 40px 1fr 80px 100px 60px; padding: 10px 14px; border-bottom: 1px solid #F0F2F5; align-items: center;">
+            <div style="font-size: 11px; color: #6B7A8D; font-family: monospace;">7845</div>
+            <div style="font-size: 12px; font-weight: 600; color: #1B2D4A;">Estevez, Carlos R.</div>
+            <div style="font-size: 11px; color: #6B7A8D;">Chen</div>
+            <div style="font-size: 11px; color: #6B7A8D; text-align: center;">10</div>
+            <div><span style="display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; background: #A5B4FC; color: #312E81;">ESOL Level 3</span></div>
+            <div style="font-size: 11px; color: #6B7A8D; font-family: monospace;">177</div>
+            <div><span style="display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; background: #FEF3C7; color: #92400E;">&#x25CF; Soon</span></div>
+            <div style="font-size: 11px; color: #6B7A8D; text-align: center; font-family: monospace;">7</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== COMPLIANCE PAGE ===== -->
+<div class="section">
+  <h3>Compliance Dashboard — /compliance</h3>
+  <div class="mockup">
+    <div class="mockup-header">Compliance with Recharts Visualizations</div>
+    <div class="mockup-body" style="padding: 0; background: #F7F8FA;">
+
+      <!-- Compact nav -->
+      <div style="background: linear-gradient(135deg, #1B2D4A, #243B5C); padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #C5A647;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 28px; height: 28px; background: #C5A647; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; color: #1B2D4A;">R</div>
+          <div style="color: #fff; font-size: 12px; font-weight: 700;">Reagan Doral SHS</div>
+        </div>
+        <div style="display: flex; gap: 2px;">
+          <div style="color: #8BA4C4; font-size: 9px; padding: 4px 10px;">Dashboard</div>
+          <div style="background: rgba(197,166,71,0.15); color: #C5A647; font-size: 9px; padding: 4px 10px; border-radius: 20px; font-weight: 600;">Compliance</div>
+          <div style="color: #8BA4C4; font-size: 9px; padding: 4px 10px;">Teachers</div>
+        </div>
+      </div>
+
+      <div style="padding: 16px 20px;">
+        <div style="font-size: 20px; font-weight: 800; color: #1B2D4A; letter-spacing: -0.02em; margin-bottom: 14px;">Compliance Report</div>
+
+        <!-- Top stat row -->
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 14px;">
+          <div style="background: #fff; border: 1px solid #E5E8ED; border-radius: 10px; padding: 12px; border-top: 3px solid #1B2D4A;">
+            <div style="font-size: 9px; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em;">Total</div>
+            <div style="font-size: 24px; font-weight: 800; color: #1B2D4A; font-family: monospace;">194</div>
+          </div>
+          <div style="background: #fff; border: 1px solid #E5E8ED; border-radius: 10px; padding: 12px; border-top: 3px solid #2563EB;">
+            <div style="font-size: 9px; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em;">ESOL</div>
+            <div style="font-size: 24px; font-weight: 800; color: #2563EB; font-family: monospace;">47</div>
+          </div>
+          <div style="background: #fff; border: 1px solid #E5E8ED; border-radius: 10px; padding: 12px; border-top: 3px solid #7C3AED;">
+            <div style="font-size: 9px; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em;">ESE / 504</div>
+            <div style="font-size: 24px; font-weight: 800; color: #7C3AED; font-family: monospace;">23</div>
+          </div>
+          <div style="background: #fff; border: 1px solid #E5E8ED; border-radius: 10px; padding: 12px; border-top: 3px solid #16A34A;">
+            <div style="font-size: 9px; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em;">Standard</div>
+            <div style="font-size: 24px; font-weight: 800; color: #16A34A; font-family: monospace;">124</div>
+          </div>
+          <div style="background: #FEF2F2; border: 1px solid #FECACA; border-radius: 10px; padding: 12px; border-top: 3px solid #DC2626;">
+            <div style="font-size: 9px; color: #B91C1C; text-transform: uppercase; letter-spacing: 0.06em;">Missing Exit</div>
+            <div style="font-size: 24px; font-weight: 800; color: #DC2626; font-family: monospace;">8</div>
+          </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+          <!-- ESOL by Level (Bar Chart mockup) -->
+          <div style="background: #fff; border: 1px solid #E5E8ED; border-radius: 10px; padding: 16px;">
+            <div style="font-size: 13px; font-weight: 700; color: #1B2D4A; margin-bottom: 12px;">ESOL Students by Level</div>
+            <div style="display: flex; align-items: flex-end; gap: 12px; height: 100px; padding: 0 10px;">
+              <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <div style="font-size: 10px; font-weight: 700; color: #1B2D4A;">8</div>
+                <div style="width: 100%; height: 40px; background: #DBEAFE; border-radius: 4px 4px 0 0;"></div>
+                <div style="font-size: 9px; color: #6B7A8D; font-weight: 600;">Lvl 1</div>
+              </div>
+              <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <div style="font-size: 10px; font-weight: 700; color: #1B2D4A;">14</div>
+                <div style="width: 100%; height: 70px; background: #C7D2FE; border-radius: 4px 4px 0 0;"></div>
+                <div style="font-size: 9px; color: #6B7A8D; font-weight: 600;">Lvl 2</div>
+              </div>
+              <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <div style="font-size: 10px; font-weight: 700; color: #1B2D4A;">12</div>
+                <div style="width: 100%; height: 60px; background: #A5B4FC; border-radius: 4px 4px 0 0;"></div>
+                <div style="font-size: 9px; color: #6B7A8D; font-weight: 600;">Lvl 3</div>
+              </div>
+              <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <div style="font-size: 10px; font-weight: 700; color: #1B2D4A;">9</div>
+                <div style="width: 100%; height: 45px; background: #818CF8; border-radius: 4px 4px 0 0;"></div>
+                <div style="font-size: 9px; color: #6B7A8D; font-weight: 600;">Lvl 4</div>
+              </div>
+              <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <div style="font-size: 10px; font-weight: 700; color: #1B2D4A;">4</div>
+                <div style="width: 100%; height: 20px; background: #6366F1; border-radius: 4px 4px 0 0;"></div>
+                <div style="font-size: 9px; color: #6B7A8D; font-weight: 600;">Lvl 5</div>
+              </div>
+            </div>
+            <div style="font-size: 9px; color: #9CA3AF; margin-top: 8px; text-align: center;">(Recharts BarChart component)</div>
+          </div>
+
+          <!-- Accommodation Donut (Pie Chart mockup) -->
+          <div style="background: #fff; border: 1px solid #E5E8ED; border-radius: 10px; padding: 16px;">
+            <div style="font-size: 13px; font-weight: 700; color: #1B2D4A; margin-bottom: 12px;">Accommodation Breakdown</div>
+            <div style="display: flex; align-items: center; gap: 20px;">
+              <!-- Donut mockup -->
+              <div style="width: 100px; height: 100px; border-radius: 50%; background: conic-gradient(#2563EB 0% 24%, #7C3AED 24% 36%, #16A34A 36% 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <div style="width: 60px; height: 60px; background: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                  <div style="font-size: 16px; font-weight: 800; color: #1B2D4A; font-family: monospace; line-height: 1;">194</div>
+                  <div style="font-size: 8px; color: #6B7A8D;">total</div>
+                </div>
+              </div>
+              <!-- Legend -->
+              <div style="display: flex; flex-direction: column; gap: 6px;">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <div style="width: 10px; height: 10px; background: #2563EB; border-radius: 2px;"></div>
+                  <div style="font-size: 11px; color: #3A4A5C;">ESOL <span style="font-weight: 700;">47</span> <span style="color: #9CA3AF;">(24%)</span></div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <div style="width: 10px; height: 10px; background: #7C3AED; border-radius: 2px;"></div>
+                  <div style="font-size: 11px; color: #3A4A5C;">ESE/504 <span style="font-weight: 700;">23</span> <span style="color: #9CA3AF;">(12%)</span></div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <div style="width: 10px; height: 10px; background: #16A34A; border-radius: 2px;"></div>
+                  <div style="font-size: 11px; color: #3A4A5C;">Standard <span style="font-weight: 700;">124</span> <span style="color: #9CA3AF;">(64%)</span></div>
+                </div>
+              </div>
+            </div>
+            <div style="font-size: 9px; color: #9CA3AF; margin-top: 8px; text-align: center;">(Recharts PieChart / donut component)</div>
+          </div>
+        </div>
+
+        <!-- Room Distribution -->
+        <div style="background: #fff; border: 1px solid #E5E8ED; border-radius: 10px; padding: 16px; margin-bottom: 14px;">
+          <div style="font-size: 13px; font-weight: 700; color: #1B2D4A; margin-bottom: 12px;">Students per Testing Room</div>
+          <!-- Stacked bar mockup -->
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 100px; font-size: 11px; color: #3A4A5C; font-weight: 600; text-align: right;">Room 101</div>
+              <div style="flex: 1; display: flex; height: 22px; border-radius: 4px; overflow: hidden;">
+                <div style="width: 50%; background: #16A34A;"></div>
+                <div style="width: 35%; background: #2563EB;"></div>
+                <div style="width: 15%; background: #7C3AED;"></div>
+              </div>
+              <div style="width: 30px; font-size: 11px; font-weight: 700; color: #1B2D4A; font-family: monospace;">38</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 100px; font-size: 11px; color: #3A4A5C; font-weight: 600; text-align: right;">Room 102</div>
+              <div style="flex: 1; display: flex; height: 22px; border-radius: 4px; overflow: hidden;">
+                <div style="width: 55%; background: #16A34A;"></div>
+                <div style="width: 30%; background: #2563EB;"></div>
+                <div style="width: 15%; background: #7C3AED;"></div>
+              </div>
+              <div style="width: 30px; font-size: 11px; font-weight: 700; color: #1B2D4A; font-family: monospace;">35</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 100px; font-size: 11px; color: #3A4A5C; font-weight: 600; text-align: right;">Room 177</div>
+              <div style="flex: 1; display: flex; height: 22px; border-radius: 4px; overflow: hidden;">
+                <div style="width: 45%; background: #16A34A;"></div>
+                <div style="width: 40%; background: #2563EB;"></div>
+                <div style="width: 15%; background: #7C3AED;"></div>
+              </div>
+              <div style="width: 30px; font-size: 11px; font-weight: 700; color: #1B2D4A; font-family: monospace;">32</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 100px; font-size: 11px; color: #3A4A5C; font-weight: 600; text-align: right;">MC Center</div>
+              <div style="flex: 1; display: flex; height: 22px; border-radius: 4px; overflow: hidden;">
+                <div style="width: 60%; background: #16A34A;"></div>
+                <div style="width: 25%; background: #2563EB;"></div>
+                <div style="width: 15%; background: #7C3AED;"></div>
+              </div>
+              <div style="width: 30px; font-size: 11px; font-weight: 700; color: #1B2D4A; font-family: monospace;">30</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 100px; font-size: 11px; color: #3A4A5C; font-weight: 600; text-align: right;">MC Left</div>
+              <div style="flex: 1; display: flex; height: 22px; border-radius: 4px; overflow: hidden;">
+                <div style="width: 40%; background: #16A34A;"></div>
+                <div style="width: 40%; background: #2563EB;"></div>
+                <div style="width: 20%; background: #7C3AED;"></div>
+              </div>
+              <div style="width: 30px; font-size: 11px; font-weight: 700; color: #1B2D4A; font-family: monospace;">30</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="width: 100px; font-size: 11px; color: #3A4A5C; font-weight: 600; text-align: right;">MC Right</div>
+              <div style="flex: 1; display: flex; height: 22px; border-radius: 4px; overflow: hidden;">
+                <div style="width: 65%; background: #16A34A;"></div>
+                <div style="width: 20%; background: #2563EB;"></div>
+                <div style="width: 15%; background: #7C3AED;"></div>
+              </div>
+              <div style="width: 30px; font-size: 11px; font-weight: 700; color: #1B2D4A; font-family: monospace;">29</div>
+            </div>
+          </div>
+          <!-- Legend -->
+          <div style="display: flex; gap: 16px; margin-top: 10px; justify-content: center;">
+            <div style="display: flex; align-items: center; gap: 4px; font-size: 10px; color: #6B7A8D;"><div style="width: 8px; height: 8px; background: #16A34A; border-radius: 2px;"></div> Standard</div>
+            <div style="display: flex; align-items: center; gap: 4px; font-size: 10px; color: #6B7A8D;"><div style="width: 8px; height: 8px; background: #2563EB; border-radius: 2px;"></div> ESOL</div>
+            <div style="display: flex; align-items: center; gap: 4px; font-size: 10px; color: #6B7A8D;"><div style="width: 8px; height: 8px; background: #7C3AED; border-radius: 2px;"></div> ESE/504</div>
+          </div>
+          <div style="font-size: 9px; color: #9CA3AF; margin-top: 6px; text-align: center;">(Recharts horizontal BarChart component)</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

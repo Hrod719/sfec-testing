@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #1E3A5F;
+  --navy-light: #2E6DA4;
+  --navy-dark: #152B47;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #0F1923;
+  color: #E8EDF2;
+  min-height: 100vh;
+}
+
+.font-mono { font-family: 'JetBrains Mono', monospace; }
+
+/* Table styles */
+.roster-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.roster-table th {
+  padding: 10px 12px;
+  background: #1E3A5F;
+  color: #A8C7E8;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  border-bottom: 1px solid #2A3F5A;
+}
+.roster-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid #1A2535;
+  vertical-align: middle;
+}
+.roster-table tr:nth-child(even) td { background: #131E2B; }
+.roster-table tr:hover td { background: #1A2F48; }
+.roster-table tr.alert-row td { background: #2D1A1A !important; }
+.roster-table tr.alert-row:hover td { background: #3D2020 !important; }
+
+/* Print styles */
+@media print {
+  body { background: white; color: black; }
+  .no-print { display: none !important; }
+  .print-break { page-break-before: always; }
+  .roster-table th { background: #1E3A5F; color: white; -webkit-print-color-adjust: exact; }
+  .roster-table tr:nth-child(even) td { background: #F4F8FC; -webkit-print-color-adjust: exact; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0F1923; }
+::-webkit-scrollbar-thumb { background: #2A3F5A; border-radius: 3px; }

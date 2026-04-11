@@ -1,0 +1,166 @@
+<h2>Design Direction</h2>
+<p class="subtitle">Three approaches for the hybrid light/dark theme with Reagan Bison branding. Click the one that feels right.</p>
+
+<div class="cards">
+  <!-- Approach A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background: #1B2D4A; padding: 12px 16px; display: flex; align-items: center; gap: 12px; border-bottom: 3px solid #C5A647;">
+        <div style="width: 36px; height: 36px; background: #C5A647; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 800; color: #1B2D4A;">R</div>
+        <div>
+          <div style="color: #fff; font-size: 14px; font-weight: 700; letter-spacing: 0.02em;">REAGAN DORAL SHS</div>
+          <div style="color: #C5A647; font-size: 10px; font-weight: 600; letter-spacing: 0.08em;">TESTING COMMAND CENTER</div>
+        </div>
+        <div style="margin-left: auto; display: flex; gap: 4px;">
+          <div style="background: #243B5C; color: #8BA4C4; font-size: 9px; padding: 4px 10px; border-radius: 4px;">Dashboard</div>
+          <div style="background: #C5A647; color: #1B2D4A; font-size: 9px; padding: 4px 10px; border-radius: 4px; font-weight: 600;">Roster</div>
+          <div style="background: #243B5C; color: #8BA4C4; font-size: 9px; padding: 4px 10px; border-radius: 4px;">Rooms</div>
+        </div>
+      </div>
+      <div style="background: #F3F5F8; padding: 16px; min-height: 140px;">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
+          <div style="background: #fff; border: 1px solid #E2E6EC; border-radius: 8px; padding: 12px; border-left: 3px solid #1B2D4A;">
+            <div style="font-size: 9px; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em;">Total Students</div>
+            <div style="font-size: 24px; font-weight: 800; color: #1B2D4A; font-family: monospace;">194</div>
+          </div>
+          <div style="background: #fff; border: 1px solid #E2E6EC; border-radius: 8px; padding: 12px; border-left: 3px solid #C5A647;">
+            <div style="font-size: 9px; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em;">ESOL</div>
+            <div style="font-size: 24px; font-weight: 800; color: #C5A647; font-family: monospace;">47</div>
+          </div>
+          <div style="background: #fff; border: 1px solid #E2E6EC; border-radius: 8px; padding: 12px; border-left: 3px solid #D14343;">
+            <div style="font-size: 9px; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em;">Missing Exit</div>
+            <div style="font-size: 24px; font-weight: 800; color: #D14343; font-family: monospace;">8</div>
+          </div>
+        </div>
+        <div style="background: #fff; border: 1px solid #E2E6EC; border-radius: 8px; overflow: hidden;">
+          <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; font-size: 9px; color: #6B7A8D; text-transform: uppercase; letter-spacing: 0.06em; padding: 8px 12px; background: #F8F9FB; border-bottom: 1px solid #E2E6EC;">
+            <div>Teacher</div><div>Students</div><div>ESOL</div><div>ESE</div>
+          </div>
+          <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; font-size: 11px; padding: 8px 12px; border-bottom: 1px solid #F0F2F5;">
+            <div style="font-weight: 600; color: #1B2D4A;">Mrs. Rodriguez</div><div style="font-family: monospace; color: #3A4A5C;">32</div><div style="font-family: monospace; color: #C5A647;">8</div><div style="font-family: monospace; color: #7C5CFC;">3</div>
+          </div>
+          <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; font-size: 11px; padding: 8px 12px; background: #FAFBFC;">
+            <div style="font-weight: 600; color: #1B2D4A;">Mr. Thompson</div><div style="font-family: monospace; color: #3A4A5C;">28</div><div style="font-family: monospace; color: #C5A647;">5</div><div style="font-family: monospace; color: #7C5CFC;">2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A: Corporate Institutional</h3>
+      <p>Clean white content area, navy header with gold accent stripe. Stat cards use left-border color coding. Feels like a district admin tool — PowerBI energy. Maximum readability, prints beautifully.</p>
+    </div>
+  </div>
+
+  <!-- Approach B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background: #1B2D4A; padding: 10px 16px; display: flex; align-items: center; gap: 12px;">
+        <div style="width: 36px; height: 36px; background: linear-gradient(135deg, #C5A647, #9B8236); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; color: #1B2D4A;">R</div>
+        <div>
+          <div style="color: #fff; font-size: 13px; font-weight: 700;">Reagan Doral</div>
+          <div style="color: #7A94B4; font-size: 9px; font-weight: 500;">Biology EOC &middot; May 2026</div>
+        </div>
+      </div>
+      <div style="display: flex; min-height: 160px;">
+        <div style="background: #152238; width: 52px; padding: 10px 0; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+          <div style="width: 28px; height: 28px; background: #C5A647; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px;">&#x1F4CA;</div>
+          <div style="width: 28px; height: 28px; background: #1D3050; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px;">&#x1F4CB;</div>
+          <div style="width: 28px; height: 28px; background: #1D3050; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px;">&#x1F3EB;</div>
+          <div style="width: 28px; height: 28px; background: #1D3050; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px;">&#x1F310;</div>
+        </div>
+        <div style="background: #F5F6F9; flex: 1; padding: 14px;">
+          <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+            <div style="flex: 1; background: #fff; border-radius: 10px; padding: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+              <div style="font-size: 8px; color: #8A95A5; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px;">Students</div>
+              <div style="font-size: 22px; font-weight: 800; color: #1B2D4A;">194</div>
+              <div style="height: 3px; background: #E8EBF0; border-radius: 2px; margin-top: 6px;"><div style="height: 100%; width: 100%; background: #1B2D4A; border-radius: 2px;"></div></div>
+            </div>
+            <div style="flex: 1; background: #fff; border-radius: 10px; padding: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+              <div style="font-size: 8px; color: #8A95A5; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px;">ESOL</div>
+              <div style="font-size: 22px; font-weight: 800; color: #C5A647;">47</div>
+              <div style="height: 3px; background: #E8EBF0; border-radius: 2px; margin-top: 6px;"><div style="height: 100%; width: 24%; background: #C5A647; border-radius: 2px;"></div></div>
+            </div>
+            <div style="flex: 1; background: #fff; border-radius: 10px; padding: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+              <div style="font-size: 8px; color: #8A95A5; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 2px;">Compliance</div>
+              <div style="font-size: 22px; font-weight: 800; color: #2D9D5C;">96%</div>
+              <div style="height: 3px; background: #E8EBF0; border-radius: 2px; margin-top: 6px;"><div style="height: 100%; width: 96%; background: #2D9D5C; border-radius: 2px;"></div></div>
+            </div>
+          </div>
+          <div style="background: #FFF5F5; border: 1px solid #FECACA; border-radius: 8px; padding: 8px 10px; display: flex; align-items: center; gap: 8px;">
+            <div style="font-size: 14px;">&#9888;</div>
+            <div>
+              <div style="font-size: 10px; font-weight: 700; color: #B91C1C;">8 students missing ESOL exit dates</div>
+              <div style="font-size: 9px; color: #DC2626;">Review required before test day</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B: Modern SaaS Dashboard</h3>
+      <p>Dark sidebar navigation with icon rail, light content area with card-based stats and progress bars. Compliance percentage as hero metric. Alert banners integrated naturally. Feels like Clever or Canvas admin.</p>
+    </div>
+  </div>
+
+  <!-- Approach C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div style="background: linear-gradient(135deg, #1B2D4A, #243B5C); padding: 14px 16px; border-bottom: 2px solid #C5A647;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px; background: #C5A647; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 900; color: #1B2D4A;">R</div>
+            <div style="color: #fff; font-size: 13px; font-weight: 700; letter-spacing: 0.01em;">Reagan Doral Testing</div>
+          </div>
+          <div style="display: flex; gap: 3px;">
+            <div style="background: rgba(197,166,71,0.15); color: #C5A647; font-size: 9px; padding: 4px 10px; border-radius: 20px; font-weight: 600;">Dashboard</div>
+            <div style="color: #7A94B4; font-size: 9px; padding: 4px 10px;">Roster</div>
+            <div style="color: #7A94B4; font-size: 9px; padding: 4px 10px;">Rooms</div>
+            <div style="color: #7A94B4; font-size: 9px; padding: 4px 10px;">ESOL</div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <div style="flex: 1; background: rgba(255,255,255,0.07); border-radius: 8px; padding: 10px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.08);">
+            <div style="font-size: 8px; color: #8BA4C4; text-transform: uppercase; letter-spacing: 0.08em;">Total</div>
+            <div style="font-size: 22px; font-weight: 800; color: #fff; font-family: monospace;">194</div>
+          </div>
+          <div style="flex: 1; background: rgba(255,255,255,0.07); border-radius: 8px; padding: 10px; border: 1px solid rgba(255,255,255,0.08);">
+            <div style="font-size: 8px; color: #C5A647; text-transform: uppercase; letter-spacing: 0.08em;">Ready</div>
+            <div style="font-size: 22px; font-weight: 800; color: #2D9D5C; font-family: monospace;">96%</div>
+          </div>
+          <div style="flex: 1; background: rgba(255,255,255,0.07); border-radius: 8px; padding: 10px; border: 1px solid rgba(255,255,255,0.08);">
+            <div style="font-size: 8px; color: #F87171; text-transform: uppercase; letter-spacing: 0.08em;">Flagged</div>
+            <div style="font-size: 22px; font-weight: 800; color: #F87171; font-family: monospace;">8</div>
+          </div>
+        </div>
+      </div>
+      <div style="background: #F7F8FA; padding: 12px 16px; min-height: 80px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div style="background: #fff; border-radius: 8px; padding: 10px; border: 1px solid #E5E8ED;">
+            <div style="font-size: 9px; font-weight: 700; color: #1B2D4A; margin-bottom: 6px;">ESOL by Level</div>
+            <div style="display: flex; gap: 4px; align-items: flex-end; height: 36px;">
+              <div style="flex: 1; background: #C5A647; border-radius: 3px 3px 0 0; height: 80%; opacity: 0.9;"></div>
+              <div style="flex: 1; background: #C5A647; border-radius: 3px 3px 0 0; height: 60%; opacity: 0.7;"></div>
+              <div style="flex: 1; background: #C5A647; border-radius: 3px 3px 0 0; height: 100%; opacity: 1;"></div>
+              <div style="flex: 1; background: #C5A647; border-radius: 3px 3px 0 0; height: 40%; opacity: 0.5;"></div>
+              <div style="flex: 1; background: #C5A647; border-radius: 3px 3px 0 0; height: 20%; opacity: 0.3;"></div>
+            </div>
+          </div>
+          <div style="background: #fff; border-radius: 8px; padding: 10px; border: 1px solid #E5E8ED;">
+            <div style="font-size: 9px; font-weight: 700; color: #1B2D4A; margin-bottom: 6px;">Room Distribution</div>
+            <div style="display: flex; height: 36px; border-radius: 4px; overflow: hidden;">
+              <div style="width: 30%; background: #1B2D4A;"></div>
+              <div style="width: 25%; background: #2E4A6E;"></div>
+              <div style="width: 20%; background: #C5A647;"></div>
+              <div style="width: 15%; background: #2D9D5C;"></div>
+              <div style="width: 10%; background: #7C5CFC;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C: Executive Command Center</h3>
+      <p>Hero stats embedded in the dark branded header — readiness percentage front and center. Light content area below with mini-charts and data cards. Pill-style navigation. The header IS the dashboard summary; scroll down for details. Most visually striking.</p>
+    </div>
+  </div>
+</div>
