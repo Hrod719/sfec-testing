@@ -75,9 +75,9 @@ export function esolStatusLabel(status: EsolStatus): string {
 
 export function esolStatusColor(status: EsolStatus): string {
   switch (status) {
-    case 'no-exit-date':     return 'text-red-600 font-semibold'
-    case 'past-exit':        return 'text-red-800 font-semibold'
-    case 'exiting-soon':     return 'text-orange-600 font-semibold'
+    case 'no-exit-date':     return 'text-red-700 font-semibold'
+    case 'past-exit':        return 'text-orange-700 font-semibold'
+    case 'exiting-soon':     return 'text-amber-700 font-semibold'
     case 'exiting-quarter':  return 'text-yellow-700 font-semibold'
     case 'active':           return 'text-green-700'
     case 'not-esol':         return 'text-gray-400'
@@ -85,9 +85,9 @@ export function esolStatusColor(status: EsolStatus): string {
 }
 
 export function accommodationBadgeClass(group: string): string {
-  if (group.includes('ESOL') && group.includes('+')) return 'bg-yellow-100 text-yellow-800'
-  if (group.includes('ESOL')) return 'bg-blue-100 text-blue-800'
-  if (group.includes('504')) return 'bg-red-100 text-red-800'
-  if (group.includes('ESE')) return 'bg-purple-100 text-purple-800'
-  return 'bg-green-100 text-green-800'
+  if (group.includes('ESOL') && group.includes('+')) return 'bg-amber-100 text-amber-800 badge-print'
+  if (group.includes('ESOL')) return 'bg-blue-100 text-blue-800 badge-print'
+  if (group.includes('504')) return 'bg-red-100 text-red-800 badge-print'
+  if (group.includes('ESE')) return 'bg-violet-100 text-violet-800 badge-print'
+  return 'bg-emerald-100 text-emerald-800 badge-print'
 }
