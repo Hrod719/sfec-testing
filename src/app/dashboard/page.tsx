@@ -41,139 +41,155 @@ export default function DashboardPage() {
   const noExit = students.filter(s => s.esol_level && !s.esol_exit_date)
   const rooms = [...new Set(students.map(s => s.testing_room))].length
   const teachers = [...new Set(students.map(s => s.teacher_name))]
+  const readiness = students.length > 0
+    ? Math.round((students.length - noExit.length) / students.length * 100)
+    : 100
 
   const quickLinks = [
-    { href: '/rooms',      label: 'Room Rosters',    desc: 'Print-ready proctor sheets', icon: '🏫' },
-    { href: '/roster',     label: 'Master Roster',   desc: 'All students, filterable',   icon: '📋' },
-    { href: '/tracker',    label: 'ESOL Tracker',    desc: `${noExit.length} missing exit dates`, icon: '🌐', alert: noExit.length > 0 },
-    { href: '/ese',        label: 'ESE & 504',       desc: `${ese.length} students`,     icon: '♿' },
-    { href: '/compliance', label: 'Compliance',      desc: 'Summary counts for admin',   icon: '📊' },
-    { href: '/teachers',   label: 'Teacher Sheets',  desc: 'Per-teacher comm sheets',    icon: '📧' },
+    { href: '/rooms',      label: 'Room Rosters',    desc: `Print-ready sheets for ${rooms} rooms`, iconBg: 'bg-blue-50',    icon: '\u{1F3EB}' },
+    { href: '/roster',     label: 'Master Roster',   desc: `All ${students.length} students, filterable`, iconBg: 'bg-green-50',   icon: '\u{1F4CB}' },
+    { href: '/tracker',    label: 'ESOL Tracker',    desc: `${noExit.length} missing exit dates`, iconBg: 'bg-red-50',     icon: '\u{1F310}', alert: noExit.length > 0 },
+    { href: '/ese',        label: 'ESE & 504',       desc: `${ese.length} students with accommodations`, iconBg: 'bg-violet-50',  icon: '\u267F' },
+    { href: '/compliance', label: 'Compliance',      desc: 'Summary counts for admin reporting', iconBg: 'bg-orange-50',  icon: '\u{1F4CA}' },
+    { href: '/teachers',   label: 'Teacher Sheets',  desc: 'Per-teacher communication sheets',   iconBg: 'bg-emerald-50', icon: '\u{1F4E7}' },
   ]
 
   if (loading) return (
     <div className="flex items-center justify-center h-64">
-      <p className="text-slate-400 font-mono text-sm">Loading...</p>
+      <p className="text-txt-secondary font-mono text-sm">Loading...</p>
     </div>
   )
 
   if (!cycles.length) return (
     <div className="max-w-lg mx-auto text-center py-20">
-      <p className="text-5xl mb-4">📂</p>
-      <h2 className="text-xl font-semibold text-white mb-2">No data yet</h2>
-      <p className="text-slate-400 text-sm mb-6">Upload your first roster CSV to get started.</p>
-      <Link href="/upload" className="px-6 py-3 rounded-lg bg-blue-700 hover:bg-blue-600 text-white font-medium text-sm transition-colors">
-        Upload Roster →
+      <p className="text-5xl mb-4">{'\u{1F4C2}'}</p>
+      <h2 className="text-xl font-semibold text-txt-primary mb-2">No data yet</h2>
+      <p className="text-txt-secondary text-sm mb-6">Upload your first roster CSV to get started.</p>
+      <Link href="/upload" className="px-6 py-3 rounded-lg bg-brand-navy hover:bg-brand-navy-light text-white font-medium text-sm transition-colors">
+        Upload Roster
       </Link>
     </div>
   )
 
   return (
-    <div className="space-y-6 max-w-5xl">
-      {/* Cycle selector */}
-      <div className="flex items-center gap-4">
-        <div>
-          <label className="text-xs text-slate-400 block mb-1 uppercase tracking-wider">Test Cycle</label>
-          <select
-            value={cycleId}
-            onChange={e => setCycleId(e.target.value)}
-            className="rounded-lg bg-slate-800 border border-slate-600 text-white text-sm px-3 py-2 min-w-64"
-          >
-            {cycles.map(c => (
-              <option key={c.id} value={c.id}>{c.name}</option>
-            ))}
-          </select>
-        </div>
-        {cycle && (
-          <div className="pt-5">
-            <span className="text-xs font-mono text-blue-400 bg-blue-900/30 px-3 py-1.5 rounded-full">
-              {cycle.test_date} · {cycle.subject}
-            </span>
+    <div>
+      {/* ===== EXTENDED HEADER: Cycle + Hero Stats ===== */}
+      <div className="border-b-[3px] border-brand-gold"
+        style={{ background: 'linear-gradient(135deg, #1B2D4A, #243B5C)' }}>
+        <div className="px-5 pt-4 pb-5">
+          {/* Cycle selector bar */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className="bg-white/[0.08] border border-white/[0.12] rounded-lg px-3.5 py-1.5 flex items-center gap-2">
+              <span className="text-[10px] text-header-muted uppercase tracking-[0.06em]">Cycle</span>
+              <select
+                value={cycleId}
+                onChange={e => setCycleId(e.target.value)}
+                className="bg-transparent text-white text-xs font-semibold outline-none cursor-pointer"
+              >
+                {cycles.map(c => (
+                  <option key={c.id} value={c.id} className="bg-brand-navy text-white">{c.name}</option>
+                ))}
+              </select>
+            </div>
+            {cycle && (
+              <span className="text-[11px] text-brand-gold font-medium">
+                {cycle.test_date} &middot; {cycle.subject} &middot; {cycle.school_year}
+              </span>
+            )}
+            <Link href="/upload" className="ml-auto text-[11px] text-header-muted hover:text-white border border-white/20 px-3 py-1.5 rounded-lg transition-colors">
+              + Upload New Roster
+            </Link>
           </div>
-        )}
-        <div className="ml-auto pt-5">
-          <Link href="/upload" className="text-xs text-slate-400 hover:text-white border border-slate-700 px-3 py-1.5 rounded transition-colors">
-            + Upload New Roster
-          </Link>
+
+          {/* Hero stat cards */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5">
+            <StatCard variant="header" label="Total Students" value={students.length} color="navy" sub={`across ${rooms} rooms`} />
+            <StatCard variant="header" label="Test Readiness" value={`${readiness}%`} color="gold" sub={readiness >= 90 ? 'on track' : 'needs attention'} />
+            <StatCard variant="header" label="ESOL" value={esol.length} color="blue" sub={`${Math.round(esol.length/Math.max(students.length,1)*100)}% of total`} />
+            <StatCard variant="header" label="ESE / 504" value={ese.length} color="purple" sub={`${Math.round(ese.length/Math.max(students.length,1)*100)}% of total`} />
+            <StatCard variant="header" label="Standard" value={standard.length} color="green" sub={`${Math.round(standard.length/Math.max(students.length,1)*100)}% of total`} />
+            <StatCard variant="header" label="Flagged" value={noExit.length} color="red" sub="missing exit dates" />
+          </div>
         </div>
       </div>
 
-      {/* Stat cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-        <StatCard label="Total Students" value={students.length} />
-        <StatCard label="ESOL" value={esol.length} color="blue" sub={`${Math.round(esol.length/students.length*100)}% of total`} />
-        <StatCard label="ESE / 504" value={ese.length} color="purple" />
-        <StatCard label="Standard" value={standard.length} color="green" />
-        <StatCard label="Missing Exit" value={noExit.length} color="red" sub="ESOL no exit date" />
-        <StatCard label="Rooms" value={rooms} color="orange" />
-      </div>
-
-      {/* Alert banner */}
-      {noExit.length > 0 && (
-        <div className="rounded-lg border border-red-800/50 px-4 py-3 flex items-center justify-between" style={{ background: '#2D1A1A' }}>
-          <div>
-            <p className="text-red-400 font-semibold text-sm">⚠ Compliance Alert</p>
-            <p className="text-xs text-red-300/70 mt-0.5">
-              {noExit.length} ESOL students have no exit date recorded. Review the ESOL Tracker.
-            </p>
-          </div>
-          <Link href="/tracker" className="text-xs text-red-400 border border-red-800 px-3 py-1.5 rounded hover:bg-red-900/30 transition-colors">
-            Review →
-          </Link>
-        </div>
-      )}
-
-      {/* Quick links */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-        {quickLinks.map(l => (
-          <Link
-            key={l.href}
-            href={l.href}
-            className={`rounded-lg border p-4 hover:border-blue-600 transition-colors group ${
-              l.alert ? 'border-red-800/60' : 'border-blue-900/40'
-            }`}
-            style={{ background: '#131E2B' }}
-          >
-            <div className="flex items-start gap-3">
-              <span className="text-2xl">{l.icon}</span>
+      {/* ===== LIGHT CONTENT AREA ===== */}
+      <div className="p-5 space-y-4">
+        {/* Alert banner */}
+        {noExit.length > 0 && (
+          <div className="bg-red-50 border border-red-200 border-l-4 border-l-semantic-error rounded-lg px-4 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-7 bg-red-100 rounded-full flex items-center justify-center text-semantic-error font-bold text-sm">!</div>
               <div>
-                <p className="font-medium text-white text-sm group-hover:text-blue-300 transition-colors">{l.label}</p>
-                <p className={`text-xs mt-0.5 ${l.alert ? 'text-red-400' : 'text-slate-500'}`}>{l.desc}</p>
+                <p className="text-[13px] font-bold text-red-900">Compliance Alert</p>
+                <p className="text-[11px] text-red-700">
+                  {noExit.length} ESOL students have no exit date recorded. This must be resolved before test day.
+                </p>
               </div>
             </div>
-          </Link>
-        ))}
-      </div>
+            <Link href="/tracker" className="bg-semantic-error text-white text-[10px] font-semibold px-3.5 py-1.5 rounded-md hover:bg-red-700 transition-colors whitespace-nowrap">
+              Review ESOL Tracker
+            </Link>
+          </div>
+        )}
 
-      {/* Teacher summary */}
-      <div className="rounded-lg border border-blue-900/40 overflow-hidden" style={{ background: '#131E2B' }}>
-        <p className="text-xs text-slate-400 uppercase tracking-wider px-4 py-3 border-b border-blue-900/40">Teacher summary</p>
-        <table className="roster-table">
-          <thead>
-            <tr>
-              <th>Teacher</th><th>Class Room</th><th>Periods</th>
-              <th>Students</th><th>ESOL</th><th>ESE/504</th><th>Standard</th>
-            </tr>
-          </thead>
-          <tbody>
-            {teachers.map(t => {
-              const ts = students.filter(s => s.teacher_name === t)
-              const periods = [...new Set(ts.map(s => s.period))].sort().join(', ')
-              const room = ts[0]?.class_room ?? '—'
-              return (
-                <tr key={t}>
-                  <td className="font-medium text-white">{t}</td>
-                  <td className="font-mono text-slate-400">{room}</td>
-                  <td className="text-slate-300">{periods}</td>
-                  <td className="font-mono text-center font-semibold text-white">{ts.length}</td>
-                  <td className="text-center text-blue-400 font-mono">{ts.filter(s=>s.esol_level).length}</td>
-                  <td className="text-center text-purple-400 font-mono">{ts.filter(s=>s.ese_exceptionality).length}</td>
-                  <td className="text-center text-green-400 font-mono">{ts.filter(s=>!s.esol_level&&!s.ese_exceptionality).length}</td>
+        {/* Quick links grid */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5">
+          {quickLinks.map(l => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="bg-surface-card border border-surface-border rounded-[10px] p-3.5 flex items-start gap-3 hover:border-brand-gold transition-colors group"
+            >
+              <div className={`w-9 h-9 ${l.iconBg} rounded-lg flex items-center justify-center text-base flex-shrink-0`}>
+                {l.icon}
+              </div>
+              <div>
+                <p className="text-[13px] font-bold text-txt-primary group-hover:text-brand-navy">{l.label}</p>
+                <p className={`text-[11px] mt-0.5 ${l.alert ? 'text-semantic-error font-semibold' : 'text-txt-secondary'}`}>{l.desc}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* Teacher summary table */}
+        <div className="bg-surface-card border border-surface-border rounded-[10px] overflow-hidden">
+          <div className="px-4 py-3 border-b border-surface-border flex items-center justify-between">
+            <p className="text-sm font-bold text-txt-primary">Teacher Summary</p>
+            <p className="text-[10px] text-txt-secondary">{teachers.length} teachers</p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="roster-table">
+              <thead>
+                <tr>
+                  <th>Teacher</th><th>Room</th><th>Periods</th>
+                  <th className="text-center">Students</th>
+                  <th className="text-center text-semantic-info">ESOL</th>
+                  <th className="text-center text-semantic-purple">ESE</th>
+                  <th className="text-center text-semantic-success">Std</th>
                 </tr>
-              )
-            })}
-          </tbody>
-        </table>
+              </thead>
+              <tbody>
+                {teachers.map(t => {
+                  const ts = students.filter(s => s.teacher_name === t)
+                  const periods = [...new Set(ts.map(s => s.period))].sort().join(', ')
+                  const room = ts[0]?.class_room ?? '\u2014'
+                  return (
+                    <tr key={t}>
+                      <td className="font-semibold text-txt-primary">{t}</td>
+                      <td className="font-mono text-txt-secondary text-xs">{room}</td>
+                      <td className="text-txt-secondary">{periods}</td>
+                      <td className="font-mono text-center font-bold text-txt-primary">{ts.length}</td>
+                      <td className="text-center text-semantic-info font-mono">{ts.filter(s=>s.esol_level).length || '\u2014'}</td>
+                      <td className="text-center text-semantic-purple font-mono">{ts.filter(s=>s.ese_exceptionality).length || '\u2014'}</td>
+                      <td className="text-center text-semantic-success font-mono">{ts.filter(s=>!s.esol_level&&!s.ese_exceptionality).length}</td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   )
