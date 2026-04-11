@@ -1,60 +1,83 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --navy: #1E3A5F;
-  --navy-light: #2E6DA4;
-  --navy-dark: #152B47;
-}
-
 * { box-sizing: border-box; }
 
 body {
   font-family: 'Inter', system-ui, sans-serif;
-  background: #0F1923;
-  color: #E8EDF2;
+  background: #F7F8FA;
+  color: #1B2D4A;
   min-height: 100vh;
 }
 
 .font-mono { font-family: 'JetBrains Mono', monospace; }
 
-/* Table styles */
+/* ===== Table Styles (Light Theme) ===== */
 .roster-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .roster-table th {
-  padding: 10px 12px;
-  background: #1E3A5F;
-  color: #A8C7E8;
-  font-size: 11px;
-  font-weight: 600;
+  padding: 8px 14px;
+  background: #F8F9FB;
+  color: #6B7A8D;
+  font-size: 10px;
+  font-weight: 700;
   text-align: left;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   white-space: nowrap;
-  border-bottom: 1px solid #2A3F5A;
+  border-bottom: 2px solid #E5E8ED;
 }
 .roster-table td {
-  padding: 9px 12px;
-  border-bottom: 1px solid #1A2535;
+  padding: 10px 14px;
+  border-bottom: 1px solid #F0F2F5;
   vertical-align: middle;
+  color: #3A4A5C;
 }
-.roster-table tr:nth-child(even) td { background: #131E2B; }
-.roster-table tr:hover td { background: #1A2F48; }
-.roster-table tr.alert-row td { background: #2D1A1A !important; }
-.roster-table tr.alert-row:hover td { background: #3D2020 !important; }
+.roster-table tr:nth-child(even) td { background: #FAFBFC; }
+.roster-table tr:hover td { background: #F0F7FF; }
 
-/* Print styles */
+/* Alert rows — missing data */
+.roster-table tr.alert-row td {
+  background: #FEF2F2 !important;
+  border-bottom-color: #FECACA;
+}
+.roster-table tr.alert-row td:first-child {
+  border-left: 3px solid #DC2626;
+}
+.roster-table tr.alert-row:hover td { background: #FEE2E2 !important; }
+
+/* ===== Print Styles ===== */
 @media print {
-  body { background: white; color: black; }
+  body { background: white; color: #1B2D4A; font-size: 12px; }
   .no-print { display: none !important; }
   .print-break { page-break-before: always; }
-  .roster-table th { background: #1E3A5F; color: white; -webkit-print-color-adjust: exact; }
-  .roster-table tr:nth-child(even) td { background: #F4F8FC; -webkit-print-color-adjust: exact; }
+  .roster-table th {
+    background: #F8F9FB;
+    color: #1B2D4A;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .roster-table tr:nth-child(even) td {
+    background: #F8F9FB;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .roster-table tr.alert-row td {
+    background: #FEF2F2 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  /* Preserve badge colors */
+  .badge-print {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 }
 
-/* Scrollbar */
+/* ===== Scrollbar ===== */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #0F1923; }
-::-webkit-scrollbar-thumb { background: #2A3F5A; border-radius: 3px; }
+::-webkit-scrollbar-track { background: #F7F8FA; }
+::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #9CA3AF; }
