@@ -62,7 +62,7 @@ export default function RosterPage() {
   }
 
   const Th = ({ col, label }: { col: string; label: string }) => (
-    <th onClick={() => sort(col)} className="cursor-pointer select-none hover:text-blue-300 transition-colors">
+    <th onClick={() => sort(col)} className="cursor-pointer select-none hover:text-brand-navy transition-colors">
       {label}{sortCol === col ? (sortDir === 1 ? ' ↑' : ' ↓') : ''}
     </th>
   )
@@ -71,39 +71,39 @@ export default function RosterPage() {
     <div>
       <div className="flex items-center justify-between mb-4 no-print">
         <div>
-          <h2 className="text-xl font-semibold text-white mb-1">Master Roster</h2>
-          <p className="text-sm text-slate-400">Showing {filtered.length} of {students.length} students</p>
+          <h2 className="text-xl font-extrabold tracking-tight text-txt-primary mb-1">Master Roster</h2>
+          <p className="text-sm text-txt-secondary">Showing {filtered.length} of {students.length} students</p>
         </div>
         <select
           value={cycleId}
           onChange={e => setCycleId(e.target.value)}
-          className="rounded bg-slate-800 border border-slate-600 text-white text-sm px-3 py-2"
+          className="rounded bg-surface-page border border-surface-border text-txt-primary text-sm px-3 py-2"
         >
           {cycles.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
         </select>
       </div>
 
       {/* Filters */}
-      <div className="flex gap-3 flex-wrap mb-4 no-print">
+      <div className="bg-surface-card border border-surface-border rounded-[10px] p-2.5 mb-4 flex gap-2 flex-wrap items-center no-print">
         <input
           type="text"
           placeholder="Search name, ID, teacher..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="rounded bg-slate-800 border border-slate-600 text-white text-sm px-3 py-2 min-w-56"
+          className="rounded bg-surface-page border border-surface-border text-txt-primary placeholder-txt-tertiary text-sm px-3 py-2 min-w-56"
         />
         <select value={filterRoom} onChange={e => setFilterRoom(e.target.value)}
-          className="rounded bg-slate-800 border border-slate-600 text-white text-sm px-3 py-2">
+          className="rounded bg-surface-page border border-surface-border text-txt-primary text-sm px-3 py-2">
           <option value="">All Rooms</option>
           {rooms.map(r => <option key={r} value={r}>{r}</option>)}
         </select>
         <select value={filterTeacher} onChange={e => setFilterTeacher(e.target.value)}
-          className="rounded bg-slate-800 border border-slate-600 text-white text-sm px-3 py-2">
+          className="rounded bg-surface-page border border-surface-border text-txt-primary text-sm px-3 py-2">
           <option value="">All Teachers</option>
           {teachers.map(t => <option key={t} value={t}>{t.split(' ')[0]}</option>)}
         </select>
         <select value={filterAccom} onChange={e => setFilterAccom(e.target.value)}
-          className="rounded bg-slate-800 border border-slate-600 text-white text-sm px-3 py-2">
+          className="rounded bg-surface-page border border-surface-border text-txt-primary text-sm px-3 py-2">
           <option value="">All Accommodations</option>
           <option value="ESOL">ESOL</option>
           <option value="ESE">ESE</option>
@@ -112,19 +112,19 @@ export default function RosterPage() {
           <option value="no-exit">⚠ No Exit Date</option>
         </select>
         <select value={filterGrade} onChange={e => setFilterGrade(e.target.value)}
-          className="rounded bg-slate-800 border border-slate-600 text-white text-sm px-3 py-2">
+          className="rounded bg-surface-page border border-surface-border text-txt-primary text-sm px-3 py-2">
           <option value="">All Grades</option>
           {[9,10,11,12].map(g => <option key={g} value={g}>Grade {g}</option>)}
         </select>
         {(search || filterRoom || filterTeacher || filterAccom || filterGrade) && (
           <button onClick={() => { setSearch(''); setFilterRoom(''); setFilterTeacher(''); setFilterAccom(''); setFilterGrade('') }}
-            className="text-xs text-slate-400 hover:text-white border border-slate-700 px-3 py-2 rounded transition-colors">
+            className="text-xs text-txt-secondary hover:text-txt-primary border border-surface-border px-3 py-2 rounded transition-colors">
             Clear
           </button>
         )}
       </div>
 
-      <div className="rounded-lg border border-blue-900/40 overflow-hidden" style={{ background: '#0F1923' }}>
+      <div className="bg-surface-card border border-surface-border rounded-[10px] overflow-hidden">
         <div className="overflow-x-auto">
           <table className="roster-table">
             <thead>
@@ -146,14 +146,14 @@ export default function RosterPage() {
               {filtered.map(s => (
                 <tr key={s.id} className={s.esolStatus === 'no-exit-date' ? 'alert-row' : ''}>
                   <td>
-                    <span className="font-semibold text-white">{getStudentFullName(s)}</span>
+                    <span className="font-semibold text-txt-primary">{getStudentFullName(s)}</span>
                   </td>
-                  <td className="font-mono text-xs text-slate-400">{s.student_id}</td>
+                  <td className="font-mono text-xs text-txt-secondary">{s.student_id}</td>
                   <td className="text-center">{s.grade}</td>
                   <td className="text-center">{s.period}</td>
-                  <td className="text-xs text-slate-300">{s.teacher_name.split(' ')[0]}</td>
+                  <td className="text-xs text-txt-secondary">{s.teacher_name.split(' ')[0]}</td>
                   <td className="text-xs">{s.testing_room}</td>
-                  <td className="text-xs text-slate-300">{s.languageFull}</td>
+                  <td className="text-xs text-txt-secondary">{s.languageFull}</td>
                   <td className="text-center font-mono">{s.esol_level ?? '—'}</td>
                   <td className={`text-xs ${esolStatusColor(s.esolStatus)}`}>
                     {s.esol_level ? (s.esol_exit_date || '⚠ NOT SET') : '—'}
