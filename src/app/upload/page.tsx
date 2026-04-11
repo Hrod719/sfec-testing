@@ -194,7 +194,7 @@ export default function UploadPage() {
       {state === 'preview' && (
         <div className="space-y-5">
           {/* Parsed summary */}
-          <div className="rounded-lg rounded-[10px] border border-surface-border p-4 bg-surface-card">
+          <div className="rounded-[10px] border border-surface-border p-4 bg-surface-card">
             <p className="text-semantic-success font-semibold mb-1">✓ Parsed {rows.length} students</p>
             <p className="text-xs text-txt-secondary">
               {[...new Set(rows.map(r => r['Teacher Name']))].join(' · ')}
@@ -207,7 +207,7 @@ export default function UploadPage() {
           </div>
 
           {/* Cycle selection */}
-          <div className="rounded-lg rounded-[10px] border border-surface-border p-4 space-y-4 bg-surface-card">
+          <div className="rounded-[10px] border border-surface-border p-4 space-y-4 bg-surface-card">
             <p className="text-sm font-medium text-txt-primary">Assign to test cycle</p>
 
             <div>
@@ -251,7 +251,7 @@ export default function UploadPage() {
           </div>
 
           {/* Preview table — first 5 rows */}
-          <div className="rounded-lg rounded-[10px] border border-surface-border overflow-hidden bg-surface-card">
+          <div className="rounded-[10px] border border-surface-border overflow-hidden bg-surface-card">
             <p className="text-xs text-txt-secondary px-4 py-2 border-b border-surface-border">Preview — first 5 rows</p>
             <div className="overflow-x-auto">
               <table className="roster-table">
@@ -300,7 +300,7 @@ export default function UploadPage() {
 
       {/* Uploading */}
       {state === 'uploading' && (
-        <div className="rounded-lg rounded-[10px] border border-surface-border p-8 text-center bg-surface-card">
+        <div className="rounded-[10px] border border-surface-border p-8 text-center bg-surface-card">
           <p className="text-txt-primary font-medium mb-4">Uploading {uploaded} / {rows.length} students...</p>
           <div className="w-full bg-surface-border rounded-full h-2 mb-2">
             <div
@@ -314,7 +314,7 @@ export default function UploadPage() {
 
       {/* Done */}
       {state === 'done' && (
-        <div className="rounded-lg rounded-[10px] border border-emerald-200 p-8 text-center bg-surface-card">
+        <div className="rounded-[10px] border border-emerald-200 p-8 text-center bg-surface-card">
           <p className="text-4xl mb-3">✅</p>
           <p className="text-semantic-success font-semibold text-lg mb-1">{rows.length} students uploaded</p>
           <p className="text-sm text-txt-secondary mb-6">All views are now live with this data.</p>
@@ -333,7 +333,7 @@ export default function UploadPage() {
       )}
 
       {state === 'error' && (
-        <div className="rounded-lg rounded-[10px] border border-red-200 p-6 bg-surface-card">
+        <div className="rounded-[10px] border border-red-200 p-6 bg-surface-card">
           <p className="text-semantic-error font-semibold mb-2">Upload failed</p>
           <p className="text-sm text-txt-secondary mb-4">{error}</p>
           <button

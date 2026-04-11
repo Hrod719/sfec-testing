@@ -5,7 +5,12 @@
       "Bash(npm run:*)",
       "Bash(pkill -f \"next dev\")",
       "Bash(/Users/hectorrodriguez/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/scripts/start-server.sh:*)",
-      "Bash(bash:*)"
+      "Bash(bash:*)",
+      "Bash(npm install:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git init:*)",
+      "Bash(npx next:*)"
     ]
   }
 }

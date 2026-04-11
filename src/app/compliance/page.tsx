@@ -72,13 +72,13 @@ export default function CompliancePage() {
     ese: enriched.filter(s => s.student_language === code && s.ese_exceptionality).length,
   })).filter(r => r.count > 0).sort((a,b) => b.count - a.count)
 
-  const teachers = [...new Set(students.map(s => s.teacher_name))]
+  const teachers = Array.from(new Set(students.map(s => s.teacher_name)))
   const teacherSummary = teachers.map(t => {
     const ts = enriched.filter(s => s.teacher_name === t)
     return {
       name: t,
       room: ts[0]?.class_room ?? '\u2014',
-      periods: [...new Set(ts.map(s => s.period))].sort().join(', '),
+      periods: Array.from(new Set(ts.map(s => s.period))).sort().join(', '),
       total: ts.length,
       esol: ts.filter(s => s.esol_level).length,
       ese: ts.filter(s => s.ese_exceptionality).length,
@@ -149,7 +149,7 @@ export default function CompliancePage() {
                 outerRadius={80}
                 paddingAngle={2}
                 dataKey="value"
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
                 labelLine={false}
               >
                 {accomData.map((_, i) => (
