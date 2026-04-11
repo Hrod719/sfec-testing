@@ -162,8 +162,8 @@ export default function UploadPage() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <h2 className="text-xl font-semibold text-white mb-1">Upload Roster CSV</h2>
-      <p className="text-sm text-slate-400 mb-6">
+      <h2 className="text-xl font-semibold text-txt-primary mb-1">Upload Roster CSV</h2>
+      <p className="text-sm text-txt-secondary mb-6">
         Export from your SIS in the same column format. Uploading to an existing cycle replaces all students in that cycle.
       </p>
 
@@ -172,8 +172,7 @@ export default function UploadPage() {
         <div
           onDrop={handleDrop}
           onDragOver={e => e.preventDefault()}
-          className="border-2 border-dashed border-blue-800 rounded-xl p-12 text-center cursor-pointer hover:border-blue-600 transition-colors"
-          style={{ background: '#131E2B' }}
+          className="border-2 border-dashed border-surface-border rounded-xl p-12 text-center cursor-pointer hover:border-blue-600 transition-colors bg-surface-card"
           onClick={() => document.getElementById('fileInput')?.click()}
         >
           <input
@@ -184,10 +183,10 @@ export default function UploadPage() {
             onChange={e => e.target.files?.[0] && handleFile(e.target.files[0])}
           />
           <p className="text-4xl mb-3">📂</p>
-          <p className="text-white font-medium mb-1">
+          <p className="text-txt-primary font-medium mb-1">
             {state === 'parsing' ? 'Parsing...' : 'Drop CSV here or click to browse'}
           </p>
-          <p className="text-xs text-slate-500">Accepts the standard SIS export format</p>
+          <p className="text-xs text-txt-tertiary">Accepts the standard SIS export format</p>
         </div>
       )}
 
@@ -195,12 +194,12 @@ export default function UploadPage() {
       {state === 'preview' && (
         <div className="space-y-5">
           {/* Parsed summary */}
-          <div className="rounded-lg border border-blue-900/40 p-4" style={{ background: '#131E2B' }}>
-            <p className="text-green-400 font-semibold mb-1">✓ Parsed {rows.length} students</p>
-            <p className="text-xs text-slate-400">
+          <div className="rounded-lg rounded-[10px] border border-surface-border p-4 bg-surface-card">
+            <p className="text-semantic-success font-semibold mb-1">✓ Parsed {rows.length} students</p>
+            <p className="text-xs text-txt-secondary">
               {[...new Set(rows.map(r => r['Teacher Name']))].join(' · ')}
             </p>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-txt-secondary mt-1">
               ESOL: {rows.filter(r => r['ESOL Level']).length} ·
               ESE/504: {rows.filter(r => r['ESE Exceptionality']).length} ·
               Standard: {rows.filter(r => !r['ESOL Level'] && !r['ESE Exceptionality']).length}
@@ -208,15 +207,15 @@ export default function UploadPage() {
           </div>
 
           {/* Cycle selection */}
-          <div className="rounded-lg border border-blue-900/40 p-4 space-y-4" style={{ background: '#131E2B' }}>
-            <p className="text-sm font-medium text-white">Assign to test cycle</p>
+          <div className="rounded-lg rounded-[10px] border border-surface-border p-4 space-y-4 bg-surface-card">
+            <p className="text-sm font-medium text-txt-primary">Assign to test cycle</p>
 
             <div>
-              <label className="text-xs text-slate-400 block mb-1">Existing cycle</label>
+              <label className="text-xs text-txt-secondary block mb-1">Existing cycle</label>
               <select
                 value={selectedCycle}
                 onChange={e => setSelectedCycle(e.target.value)}
-                className="w-full rounded bg-slate-800 border border-slate-600 text-white text-sm px-3 py-2"
+                className="w-full rounded bg-surface-page border border-surface-border text-txt-primary text-sm px-3 py-2"
               >
                 <option value="">— create new —</option>
                 {cycles.map(c => (
@@ -228,23 +227,23 @@ export default function UploadPage() {
             {!selectedCycle && (
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs text-slate-400 block mb-1">New cycle name</label>
+                  <label className="text-xs text-txt-secondary block mb-1">New cycle name</label>
                   <input
                     type="text"
                     placeholder="Biology EOC — May 2026"
                     value={newCycleName}
                     onChange={e => setNewCycleName(e.target.value)}
-                    className="w-full rounded bg-slate-800 border border-slate-600 text-white text-sm px-3 py-2"
+                    className="w-full rounded bg-surface-page border border-surface-border text-txt-primary text-sm px-3 py-2"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-slate-400 block mb-1">Test date</label>
+                  <label className="text-xs text-txt-secondary block mb-1">Test date</label>
                   <input
                     type="text"
                     placeholder="May 15, Friday"
                     value={newCycleDate}
                     onChange={e => setNewCycleDate(e.target.value)}
-                    className="w-full rounded bg-slate-800 border border-slate-600 text-white text-sm px-3 py-2"
+                    className="w-full rounded bg-surface-page border border-surface-border text-txt-primary text-sm px-3 py-2"
                   />
                 </div>
               </div>
@@ -252,8 +251,8 @@ export default function UploadPage() {
           </div>
 
           {/* Preview table — first 5 rows */}
-          <div className="rounded-lg border border-blue-900/40 overflow-hidden" style={{ background: '#131E2B' }}>
-            <p className="text-xs text-slate-400 px-4 py-2 border-b border-blue-900/40">Preview — first 5 rows</p>
+          <div className="rounded-lg rounded-[10px] border border-surface-border overflow-hidden bg-surface-card">
+            <p className="text-xs text-txt-secondary px-4 py-2 border-b border-surface-border">Preview — first 5 rows</p>
             <div className="overflow-x-auto">
               <table className="roster-table">
                 <thead>
@@ -265,8 +264,8 @@ export default function UploadPage() {
                 <tbody>
                   {rows.slice(0, 5).map((r, i) => (
                     <tr key={i}>
-                      <td className="font-mono text-xs text-slate-400">{r['Student ID']}</td>
-                      <td className="font-medium text-white">{r['Last Name']}</td>
+                      <td className="font-mono text-xs text-txt-tertiary">{r['Student ID']}</td>
+                      <td className="font-medium text-txt-primary">{r['Last Name']}</td>
                       <td>{r['First Name']}</td>
                       <td className="text-center">{r['Grade']}</td>
                       <td className="text-xs">{r['Teacher Name']?.split(' ')[0]}</td>
@@ -280,18 +279,18 @@ export default function UploadPage() {
             </div>
           </div>
 
-          {error && <p className="text-red-400 text-sm">{error}</p>}
+          {error && <p className="text-semantic-error text-sm">{error}</p>}
 
           <div className="flex gap-3">
             <button
               onClick={handleUpload}
-              className="px-6 py-2.5 rounded-lg bg-blue-700 hover:bg-blue-600 text-white font-semibold text-sm transition-colors"
+              className="px-6 py-2.5 rounded-lg bg-brand-navy hover:bg-brand-navy-light text-white font-semibold text-sm transition-colors"
             >
               Upload {rows.length} Students →
             </button>
             <button
               onClick={() => { setState('idle'); setRows([]); setError('') }}
-              className="px-4 py-2.5 rounded-lg border border-slate-600 text-slate-400 hover:text-white text-sm transition-colors"
+              className="px-4 py-2.5 rounded-lg border border-surface-border text-txt-secondary hover:text-txt-primary text-sm transition-colors"
             >
               Cancel
             </button>
@@ -301,31 +300,31 @@ export default function UploadPage() {
 
       {/* Uploading */}
       {state === 'uploading' && (
-        <div className="rounded-lg border border-blue-900/40 p-8 text-center" style={{ background: '#131E2B' }}>
-          <p className="text-white font-medium mb-4">Uploading {uploaded} / {rows.length} students...</p>
-          <div className="w-full bg-slate-700 rounded-full h-2 mb-2">
+        <div className="rounded-lg rounded-[10px] border border-surface-border p-8 text-center bg-surface-card">
+          <p className="text-txt-primary font-medium mb-4">Uploading {uploaded} / {rows.length} students...</p>
+          <div className="w-full bg-surface-border rounded-full h-2 mb-2">
             <div
-              className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+              className="bg-brand-navy h-2 rounded-full transition-all duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
-          <p className="text-xs text-slate-400">{progress}%</p>
+          <p className="text-xs text-txt-secondary">{progress}%</p>
         </div>
       )}
 
       {/* Done */}
       {state === 'done' && (
-        <div className="rounded-lg border border-green-800/40 p-8 text-center" style={{ background: '#131E2B' }}>
+        <div className="rounded-lg rounded-[10px] border border-emerald-200 p-8 text-center bg-surface-card">
           <p className="text-4xl mb-3">✅</p>
-          <p className="text-green-400 font-semibold text-lg mb-1">{rows.length} students uploaded</p>
-          <p className="text-sm text-slate-400 mb-6">All views are now live with this data.</p>
+          <p className="text-semantic-success font-semibold text-lg mb-1">{rows.length} students uploaded</p>
+          <p className="text-sm text-txt-secondary mb-6">All views are now live with this data.</p>
           <div className="flex gap-3 justify-center">
-            <a href="/dashboard" className="px-5 py-2 rounded-lg bg-blue-700 hover:bg-blue-600 text-white text-sm font-medium transition-colors">
+            <a href="/dashboard" className="px-5 py-2 rounded-lg bg-brand-navy hover:bg-brand-navy-light text-white text-sm font-medium transition-colors">
               Go to Dashboard →
             </a>
             <button
               onClick={() => { setState('idle'); setRows([]); setProgress(0); setUploaded(0) }}
-              className="px-5 py-2 rounded-lg border border-slate-600 text-slate-400 hover:text-white text-sm transition-colors"
+              className="px-5 py-2 rounded-lg border border-surface-border text-txt-secondary hover:text-txt-primary text-sm transition-colors"
             >
               Upload Another
             </button>
@@ -334,12 +333,12 @@ export default function UploadPage() {
       )}
 
       {state === 'error' && (
-        <div className="rounded-lg border border-red-800/40 p-6" style={{ background: '#131E2B' }}>
-          <p className="text-red-400 font-semibold mb-2">Upload failed</p>
-          <p className="text-sm text-slate-400 mb-4">{error}</p>
+        <div className="rounded-lg rounded-[10px] border border-red-200 p-6 bg-surface-card">
+          <p className="text-semantic-error font-semibold mb-2">Upload failed</p>
+          <p className="text-sm text-txt-secondary mb-4">{error}</p>
           <button
             onClick={() => { setState('idle'); setError('') }}
-            className="px-4 py-2 rounded border border-slate-600 text-slate-400 hover:text-white text-sm"
+            className="px-4 py-2 rounded border border-surface-border text-txt-secondary hover:text-txt-primary text-sm"
           >
             Try Again
           </button>
