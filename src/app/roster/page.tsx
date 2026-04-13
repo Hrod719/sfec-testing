@@ -135,6 +135,7 @@ export default function RosterPage() {
                 <Th col="period" label="Pd" />
                 <Th col="teacher_name" label="Teacher" />
                 <Th col="testing_room" label="Testing Room" />
+                <Th col="testing_date" label="Testing Date" />
                 <Th col="student_language" label="Language" />
                 <Th col="esol_level" label="ESOL" />
                 <th>Exit Date</th>
@@ -153,6 +154,7 @@ export default function RosterPage() {
                   <td className="text-center">{s.period}</td>
                   <td className="text-xs text-txt-secondary">{s.teacher_name.split(' ')[0]}</td>
                   <td className="text-xs">{s.testing_room}</td>
+                  <td className="text-xs text-txt-secondary">{s.testing_date || '—'}</td>
                   <td className="text-xs text-txt-secondary">{s.languageFull}</td>
                   <td className="text-center font-mono">{s.esol_level ?? '—'}</td>
                   <td className={`text-xs ${esolStatusColor(s.esolStatus)}`}>

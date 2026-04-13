@@ -1,15 +1,39 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { supabase } from '@/lib/supabase'
 import { TestCycle, Student } from '@/types'
 import StatCard from '@/components/StatCard'
 import Link from 'next/link'
 
+/** Parse testing date text like "May 15, Friday" into a Date for the current school year */
+function parseTestingDate(text: string): Date | null {
+  if (!text?.trim()) return null
+  const match = text.match(/^(\w+)\s+(\d+)/)
+  if (!match) return null
+  const [, month, day] = match
+  const months: Record<string, number> = {
+    January: 0, February: 1, March: 2, April: 3, May: 4, June: 5,
+    July: 6, August: 7, September: 8, October: 9, November: 10, December: 11,
+  }
+  const m = months[month]
+  if (m === undefined) return null
+  const year = m >= 7 ? 2025 : 2026
+  return new Date(year, m, parseInt(day))
+}
+
+function dateKey(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
 export default function DashboardPage() {
   const [cycles, setCycles] = useState<TestCycle[]>([])
   const [cycleId, setCycleId] = useState('')
   const [students, setStudents] = useState<Student[]>([])
+  const [allStudents, setAllStudents] = useState<(Student & { cycle_subject: string })[]>([])
   const [loading, setLoading] = useState(true)
+  const [calMonth, setCalMonth] = useState(() => new Date(2026, 3, 1)) // April 2026
+  const [selectedDate, setSelectedDate] = useState('')
+  const [selectedStudentId, setSelectedStudentId] = useState('')
 
   useEffect(() => {
     supabase
@@ -20,6 +44,13 @@ export default function DashboardPage() {
         if (data?.length) {
           setCycles(data)
           setCycleId(data[0].id)
+          // Load all students across all cycles for the calendar
+          supabase.from('students').select('*').then(({ data: all }) => {
+            if (all) {
+              const cycleMap = new Map(data.map(c => [c.id, c.subject]))
+              setAllStudents(all.map(s => ({ ...s, cycle_subject: cycleMap.get(s.cycle_id) ?? '' })))
+            }
+          })
         }
         setLoading(false)
       })
@@ -44,6 +75,52 @@ export default function DashboardPage() {
   const readiness = students.length > 0
     ? Math.round((students.length - noExit.length) / students.length * 100)
     : 100
+
+  // Calendar data: group all students by parsed testing date
+  const testingByDate = useMemo(() => {
+    const map = new Map<string, (Student & { cycle_subject: string })[]>()
+    for (const s of allStudents) {
+      const d = parseTestingDate(s.testing_date)
+      if (!d) continue
+      const key = dateKey(d)
+      if (!map.has(key)) map.set(key, [])
+      map.get(key)!.push(s)
+    }
+    return map
+  }, [allStudents])
+
+  const calDays = useMemo(() => {
+    const year = calMonth.getFullYear()
+    const month = calMonth.getMonth()
+    const firstDay = new Date(year, month, 1).getDay()
+    const daysInMonth = new Date(year, month + 1, 0).getDate()
+    const days: (Date | null)[] = []
+    for (let i = 0; i < firstDay; i++) days.push(null)
+    for (let d = 1; d <= daysInMonth; d++) days.push(new Date(year, month, d))
+    return days
+  }, [calMonth])
+
+  const selectedStudents = selectedDate ? (testingByDate.get(selectedDate) ?? []) : []
+  const selectedSubjects = [...new Set(selectedStudents.map(s => s.cycle_subject))].sort()
+
+  // All exams for a selected student (matched by student_id)
+  const studentExams = useMemo(() => {
+    if (!selectedStudentId) return []
+    return allStudents
+      .filter(s => s.student_id === selectedStudentId)
+      .sort((a, b) => {
+        const da = parseTestingDate(a.testing_date)
+        const db = parseTestingDate(b.testing_date)
+        if (da && db) return da.getTime() - db.getTime()
+        if (da) return -1
+        if (db) return 1
+        return a.cycle_subject.localeCompare(b.cycle_subject)
+      })
+  }, [selectedStudentId, allStudents])
+
+  const selectedStudentName = studentExams.length
+    ? `${studentExams[0].first_name.trim()} ${studentExams[0].last_name.trim()}`
+    : ''
 
   const quickLinks = [
     { href: '/rooms',      label: 'Room Rosters',    desc: `Print-ready sheets for ${rooms} rooms`, iconBg: 'bg-blue-50',    icon: '\u{1F3EB}' },
@@ -152,6 +229,132 @@ export default function DashboardPage() {
           ))}
         </div>
 
+        {/* Testing Calendar */}
+        <div className="bg-surface-card border border-surface-border rounded-[10px] overflow-hidden">
+          <div className="px-4 py-3 border-b border-surface-border flex items-center justify-between">
+            <p className="text-sm font-bold text-txt-primary">Testing Calendar</p>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCalMonth(new Date(calMonth.getFullYear(), calMonth.getMonth() - 1, 1))}
+                className="w-7 h-7 rounded border border-surface-border text-txt-secondary hover:text-txt-primary hover:border-brand-gold flex items-center justify-center text-xs transition-colors"
+              >
+                &larr;
+              </button>
+              <span className="text-sm font-semibold text-txt-primary min-w-[120px] text-center">
+                {calMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+              </span>
+              <button
+                onClick={() => setCalMonth(new Date(calMonth.getFullYear(), calMonth.getMonth() + 1, 1))}
+                className="w-7 h-7 rounded border border-surface-border text-txt-secondary hover:text-txt-primary hover:border-brand-gold flex items-center justify-center text-xs transition-colors"
+              >
+                &rarr;
+              </button>
+            </div>
+          </div>
+          <div className="p-4">
+            <div className="grid grid-cols-7 gap-1 mb-1">
+              {['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => (
+                <div key={d} className="text-[10px] font-semibold text-txt-tertiary text-center py-1">{d}</div>
+              ))}
+            </div>
+            <div className="grid grid-cols-7 gap-1">
+              {calDays.map((day, i) => {
+                if (!day) return <div key={`e${i}`} />
+                const key = dateKey(day)
+                const count = testingByDate.get(key)?.length ?? 0
+                const isSelected = key === selectedDate
+                const isToday = key === dateKey(new Date())
+                return (
+                  <button
+                    key={key}
+                    onClick={() => setSelectedDate(isSelected ? '' : key)}
+                    className={`
+                      relative h-12 rounded-lg text-sm font-medium transition-all
+                      ${isSelected
+                        ? 'bg-brand-navy text-white ring-2 ring-brand-gold'
+                        : count > 0
+                          ? 'bg-blue-50 text-brand-navy hover:bg-blue-100 border border-blue-200'
+                          : 'text-txt-secondary hover:bg-surface-page'
+                      }
+                      ${isToday && !isSelected ? 'ring-1 ring-brand-gold' : ''}
+                    `}
+                  >
+                    {day.getDate()}
+                    {count > 0 && (
+                      <span className={`absolute bottom-1 left-1/2 -translate-x-1/2 text-[9px] font-bold ${isSelected ? 'text-brand-gold' : 'text-brand-navy'}`}>
+                        {count}
+                      </span>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Selected date detail */}
+          {selectedDate && (
+            <div className="border-t border-surface-border">
+              <div className="px-4 py-3 border-b border-surface-border bg-surface-page">
+                <p className="text-sm font-bold text-txt-primary">
+                  {new Date(selectedDate + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+                  <span className="text-txt-secondary font-normal ml-2">— {selectedStudents.length} students</span>
+                </p>
+                {selectedSubjects.length > 0 && (
+                  <p className="text-xs text-txt-secondary mt-0.5">
+                    {selectedSubjects.map(sub => {
+                      const c = selectedStudents.filter(s => s.cycle_subject === sub).length
+                      return `${sub} (${c})`
+                    }).join(' · ')}
+                  </p>
+                )}
+              </div>
+              {selectedStudents.length === 0 ? (
+                <div className="px-4 py-6 text-center text-sm text-txt-tertiary">No tests scheduled</div>
+              ) : (
+                <div className="overflow-x-auto max-h-80 overflow-y-auto">
+                  <table className="roster-table">
+                    <thead className="sticky top-0 bg-surface-card">
+                      <tr>
+                        <th>Subject</th>
+                        <th>Name</th>
+                        <th>Student ID</th>
+                        <th>Gr</th>
+                        <th>Teacher</th>
+                        <th>Testing Room</th>
+                        <th>ESOL</th>
+                        <th>ESE</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {selectedStudents
+                        .sort((a, b) => a.cycle_subject.localeCompare(b.cycle_subject) || a.last_name.localeCompare(b.last_name))
+                        .map(s => (
+                        <tr key={s.id}>
+                          <td className="text-xs font-semibold text-brand-navy">{s.cycle_subject}</td>
+                          <td>
+                            <button
+                              onClick={() => setSelectedStudentId(s.student_id)}
+                              className="font-semibold text-txt-primary hover:text-brand-navy hover:underline transition-colors text-left"
+                            >
+                              {s.last_name}, {s.first_name}
+                            </button>
+                          </td>
+                          <td className="font-mono text-xs text-txt-secondary">{s.student_id}</td>
+                          <td className="text-center">{s.grade}</td>
+                          <td className="text-xs text-txt-secondary">{s.teacher_name?.split(' ')[0]}</td>
+                          <td className="text-xs">{s.testing_room || '—'}</td>
+                          <td className="text-center font-mono">{s.esol_level ?? '—'}</td>
+                          <td className="text-center font-mono text-xs">{s.ese_exceptionality ?? '—'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
         {/* Teacher summary table */}
         <div className="bg-surface-card border border-surface-border rounded-[10px] overflow-hidden">
           <div className="px-4 py-3 border-b border-surface-border flex items-center justify-between">
@@ -191,6 +394,64 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Student exam schedule modal */}
+      {selectedStudentId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50" onClick={() => setSelectedStudentId('')}>
+          <div
+            className="bg-surface-card border border-surface-border rounded-xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="px-5 py-4 border-b border-surface-border flex items-center justify-between"
+              style={{ background: 'linear-gradient(135deg, #1B2D4A, #243B5C)' }}>
+              <div>
+                <p className="text-white font-bold">{selectedStudentName}</p>
+                <p className="text-[11px] text-brand-gold">
+                  ID: {studentExams[0]?.student_id} · Grade {studentExams[0]?.grade}
+                </p>
+              </div>
+              <button
+                onClick={() => setSelectedStudentId('')}
+                className="text-white/60 hover:text-white text-lg transition-colors"
+              >
+                &times;
+              </button>
+            </div>
+            <div className="px-5 py-3 border-b border-surface-border bg-surface-page">
+              <p className="text-xs font-semibold text-txt-secondary">
+                {studentExams.length} exam{studentExams.length !== 1 ? 's' : ''} scheduled
+              </p>
+            </div>
+            <div className="divide-y divide-surface-border max-h-80 overflow-y-auto">
+              {studentExams.map(s => (
+                <div key={s.id} className="px-5 py-3 flex items-center gap-4">
+                  <div className="flex-1">
+                    <p className="text-sm font-bold text-txt-primary">{s.cycle_subject}</p>
+                    <p className="text-xs text-txt-secondary">{s.course_title?.trim()}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-semibold text-brand-navy">{s.testing_date || 'TBD'}</p>
+                    <p className="text-[11px] text-txt-tertiary">
+                      Room {s.testing_room || '—'} · {s.teacher_name?.split(' ')[0]}
+                    </p>
+                  </div>
+                </div>
+              ))}
+              {studentExams.length === 0 && (
+                <div className="px-5 py-8 text-center text-sm text-txt-tertiary">No exams found</div>
+              )}
+            </div>
+            <div className="px-5 py-3 border-t border-surface-border bg-surface-page flex justify-end">
+              <button
+                onClick={() => setSelectedStudentId('')}
+                className="px-4 py-2 rounded-lg border border-surface-border text-txt-secondary hover:text-txt-primary text-sm transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
