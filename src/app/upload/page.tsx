@@ -1,8 +1,12 @@
 'use client'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import Papa from 'papaparse'
 import { supabase } from '@/lib/supabase'
 import { TestCycle } from '@/types'
+
+const DEFAULT_SUBJECT = 'Biology'
+const DEFAULT_SCHOOL_YEAR = '2025-2026'
+const INSERT_CHUNK_SIZE = 50
 
 interface ParsedRow {
   'Student ID': string
@@ -34,9 +38,15 @@ export default function UploadPage() {
   const [selectedCycle, setSelectedCycle] = useState('')
   const [newCycleName, setNewCycleName] = useState('')
   const [newCycleDate, setNewCycleDate] = useState('')
-  const [progress, setProgress] = useState(0)
   const [error, setError] = useState('')
   const [uploaded, setUploaded] = useState(0)
+
+  const progress = rows.length ? Math.round((uploaded / rows.length) * 100) : 0
+
+  const teacherNames = useMemo(
+    () => [...new Set(rows.map(r => r['Teacher Name']))],
+    [rows]
+  )
 
   const loadCycles = useCallback(async () => {
     const { data } = await supabase
@@ -46,7 +56,7 @@ export default function UploadPage() {
     if (data) setCycles(data)
   }, [])
 
-  const handleFile = (file: File) => {
+  const handleFile = useCallback((file: File) => {
     setState('parsing')
     Papa.parse(file, {
       header: false,
@@ -54,7 +64,6 @@ export default function UploadPage() {
       complete: (results) => {
         const raw = results.data as string[][]
 
-        // Find the real header row (first row containing "Student ID")
         const headerIdx = raw.findIndex(row =>
           row.some(cell => cell.trim() === 'Student ID')
         )
@@ -66,14 +75,13 @@ export default function UploadPage() {
 
         const headers = raw[headerIdx].map(h => h.trim())
         const dataRows = raw.slice(headerIdx + 1)
+          .filter(row => row[headers.indexOf('Student ID')]?.trim())
 
-        const mapped: ParsedRow[] = dataRows
-          .map(row => {
-            const obj: Record<string, string> = {}
-            headers.forEach((h, i) => { obj[h] = row[i] ?? '' })
-            return obj as unknown as ParsedRow
-          })
-          .filter(r => r['Student ID']?.trim())
+        const mapped: ParsedRow[] = dataRows.map(row => {
+          const obj: Record<string, string> = {}
+          headers.forEach((h, i) => { obj[h] = row[i] ?? '' })
+          return obj as unknown as ParsedRow
+        })
 
         setRows(mapped)
         setState('preview')
@@ -84,7 +92,7 @@ export default function UploadPage() {
         setState('error')
       },
     })
-  }
+  }, [loadCycles])
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault()
@@ -98,7 +106,7 @@ export default function UploadPage() {
       return
     }
     setState('uploading')
-    setProgress(0)
+    setUploaded(0)
 
     let cycleId = selectedCycle
 
@@ -106,7 +114,7 @@ export default function UploadPage() {
     if (!cycleId) {
       const { data, error: cycleErr } = await supabase
         .from('test_cycles')
-        .insert({ name: newCycleName, test_date: newCycleDate, subject: 'Biology', school_year: '2025-2026' })
+        .insert({ name: newCycleName, test_date: newCycleDate, subject: DEFAULT_SUBJECT, school_year: DEFAULT_SCHOOL_YEAR })
         .select()
         .single()
       if (cycleErr || !data) {
@@ -117,46 +125,52 @@ export default function UploadPage() {
       cycleId = data.id
     }
 
-    // Delete existing students for this cycle before re-upload
     await supabase.from('students').delete().eq('cycle_id', cycleId)
 
-    // Batch insert in chunks of 50
-    const CHUNK = 50
-    let inserted = 0
-    for (let i = 0; i < rows.length; i += CHUNK) {
-      const chunk = rows.slice(i, i + CHUNK).map(r => ({
-        cycle_id:           cycleId,
-        student_id:         r['Student ID']?.trim() ?? '',
-        fleid:              r['FLEID']?.trim() ?? '',
-        first_name:         r['First Name']?.trim() ?? '',
-        last_name:          r['Last Name']?.trim() ?? '',
-        middle_initial:     r['Middle Initial']?.trim() || null,
-        grade:              parseInt(r['Grade']) || 0,
-        birth_date:         r['Birth Date']?.trim() ?? '',
-        course_title:       r['Course Title']?.trim() ?? '',
-        teacher_name:       r['Teacher Name']?.trim() ?? '',
-        class_room:         r['Room Number']?.trim() ?? '',
-        term:               r['Term']?.trim() ?? '',
-        period:             parseInt(r['Period']) || 0,
-        student_language:   r['Student Language']?.trim() ?? '',
-        esol_level:         r['ESOL Level'] ? parseInt(r['ESOL Level']) || null : null,
-        esol_exit_date:     r['ESOL Exit Date']?.trim() || null,
-        ese_exceptionality: r['ESE Exceptionality']?.trim() || null,
-        testing_date:       r['TESTING DATE']?.trim() ?? '',
-        testing_room:       r['TESTING ROOM']?.trim() ?? '',
-      }))
+    const mapRow = (r: ParsedRow) => ({
+      cycle_id:           cycleId,
+      student_id:         r['Student ID']?.trim() ?? '',
+      fleid:              r['FLEID']?.trim() ?? '',
+      first_name:         r['First Name']?.trim() ?? '',
+      last_name:          r['Last Name']?.trim() ?? '',
+      middle_initial:     r['Middle Initial']?.trim() || null,
+      grade:              parseInt(r['Grade']) || 0,
+      birth_date:         r['Birth Date']?.trim() ?? '',
+      course_title:       r['Course Title']?.trim() ?? '',
+      teacher_name:       r['Teacher Name']?.trim() ?? '',
+      class_room:         r['Room Number']?.trim() ?? '',
+      term:               r['Term']?.trim() ?? '',
+      period:             parseInt(r['Period']) || 0,
+      student_language:   r['Student Language']?.trim() ?? '',
+      esol_level:         r['ESOL Level'] ? parseInt(r['ESOL Level']) || null : null,
+      esol_exit_date:     r['ESOL Exit Date']?.trim() || null,
+      ese_exceptionality: r['ESE Exceptionality']?.trim() || null,
+      testing_date:       r['TESTING DATE']?.trim() ?? '',
+      testing_room:       r['TESTING ROOM']?.trim() ?? '',
+    })
 
-      const { error: insertErr } = await supabase.from('students').insert(chunk)
-      if (insertErr) {
-        setError('Insert error: ' + insertErr.message)
-        setState('error')
-        return
-      }
-      inserted += chunk.length
-      setUploaded(inserted)
-      setProgress(Math.round((inserted / rows.length) * 100))
+    const chunks: ParsedRow[][] = []
+    for (let i = 0; i < rows.length; i += INSERT_CHUNK_SIZE) {
+      chunks.push(rows.slice(i, i + INSERT_CHUNK_SIZE))
     }
 
+    const results = await Promise.all(
+      chunks.map(async (chunk) => {
+        const { error: insertErr } = await supabase
+          .from('students')
+          .insert(chunk.map(mapRow))
+        return { count: chunk.length, error: insertErr }
+      })
+    )
+
+    const failed = results.find(r => r.error)
+    if (failed) {
+      setError('Insert error: ' + failed.error!.message)
+      setState('error')
+      return
+    }
+
+    setUploaded(rows.length)
     setState('done')
   }
 
@@ -197,7 +211,7 @@ export default function UploadPage() {
           <div className="rounded-[10px] border border-surface-border p-4 bg-surface-card">
             <p className="text-semantic-success font-semibold mb-1">✓ Parsed {rows.length} students</p>
             <p className="text-xs text-txt-secondary">
-              {[...new Set(rows.map(r => r['Teacher Name']))].join(' · ')}
+              {teacherNames.join(' · ')}
             </p>
             <p className="text-xs text-txt-secondary mt-1">
               ESOL: {rows.filter(r => r['ESOL Level']).length} ·
@@ -316,14 +330,14 @@ export default function UploadPage() {
       {state === 'done' && (
         <div className="rounded-[10px] border border-emerald-200 p-8 text-center bg-surface-card">
           <p className="text-4xl mb-3">✅</p>
-          <p className="text-semantic-success font-semibold text-lg mb-1">{rows.length} students uploaded</p>
+          <p className="text-semantic-success font-semibold text-lg mb-1">{uploaded} students uploaded</p>
           <p className="text-sm text-txt-secondary mb-6">All views are now live with this data.</p>
           <div className="flex gap-3 justify-center">
             <a href="/dashboard" className="px-5 py-2 rounded-lg bg-brand-navy hover:bg-brand-navy-light text-white text-sm font-medium transition-colors">
               Go to Dashboard →
             </a>
             <button
-              onClick={() => { setState('idle'); setRows([]); setProgress(0); setUploaded(0) }}
+              onClick={() => { setState('idle'); setRows([]); setUploaded(0) }}
               className="px-5 py-2 rounded-lg border border-surface-border text-txt-secondary hover:text-txt-primary text-sm transition-colors"
             >
               Upload Another
