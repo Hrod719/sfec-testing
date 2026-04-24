@@ -1,7 +1,7 @@
 'use client'
 import './globals.css'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 const nav = [
   { href: '/',           label: 'Dashboard' },
@@ -16,6 +16,7 @@ const nav = [
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
   const isDashboard = pathname === '/' || pathname === '/dashboard'
 
   return (
@@ -26,6 +27,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           style={{ background: 'linear-gradient(135deg, #1B2D4A, #243B5C)' }}>
           <div className="flex items-center justify-between px-5 py-2.5">
             <div className="flex items-center gap-3">
+              {!isDashboard && (
+                <button
+                  onClick={() => router.back()}
+                  aria-label="Go back"
+                  className="w-9 h-9 rounded-lg flex items-center justify-center text-header-muted hover:text-white hover:bg-white/10 transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M15 18l-6-6 6-6"/>
+                  </svg>
+                </button>
+              )}
               <div className="w-9 h-9 bg-brand-gold rounded-lg flex items-center justify-center text-brand-navy font-black text-base">
                 R
               </div>
